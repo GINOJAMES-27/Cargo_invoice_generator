@@ -7,9 +7,9 @@
               web_icon="cargo_manual_invoicing,static/description/icon.png"
               sequence="90"/>
 
-    <!-- Sub-menu -->
+    <!-- ── Operations ── -->
     <menuitem id="menu_cargo_invoicing_main"
-              name="Invoices"
+              name="Operations"
               parent="menu_cargo_invoicing_root"
               sequence="10"/>
 
@@ -18,5 +18,23 @@
               parent="menu_cargo_invoicing_main"
               action="action_cargo_manual_invoice"
               sequence="10"/>
+
+    <!-- ── Reporting ── -->
+    <menuitem id="menu_cargo_reporting"
+              name="Reporting"
+              parent="menu_cargo_invoicing_root"
+              sequence="20"/>
+
+    <menuitem id="menu_cargo_invoice_graph"
+              name="Invoice Analysis (Chart)"
+              parent="menu_cargo_reporting"
+              action="action_cargo_invoice_report_graph"
+              sequence="10"/>
+
+    <menuitem id="menu_cargo_invoice_pivot"
+              name="Invoice Analysis (Table)"
+              parent="menu_cargo_reporting"
+              action="action_cargo_invoice_report_pivot"
+              sequence="20"/>
 
 </odoo>

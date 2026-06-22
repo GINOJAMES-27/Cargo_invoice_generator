@@ -37,7 +37,6 @@
                             icon="fa-print"/>
                 </header>
                 <sheet>
-                    <!-- ── Invoice Title Block ── -->
                     <div class="oe_title mb-3">
                         <label for="invoice_number" string="Invoice Number"/>
                         <h1>
@@ -46,127 +45,66 @@
                         </h1>
                     </div>
 
-                    <!-- ── Key Info Banner ── -->
                     <group>
                         <group string="Shipment Info">
-                            <field name="shipping_date"
-                                   string="Shipping Date"/>
+                            <field name="shipping_date" string="Shipping Date"/>
                             <field name="shipment_type" widget="radio"
-                                   options="{'horizontal': true}"
-                                   string="Shipment Type"/>
+                                   options="{'horizontal': true}" string="Shipment Type"/>
                             <field name="status" string="Status"/>
                         </group>
                         <group string="Agent / Payment">
                             <field name="agent_name" string="Agent"/>
                             <field name="paymode" widget="radio"
-                                   options="{'horizontal': true}"
-                                   string="Payment Mode"/>
+                                   options="{'horizontal': true}" string="Payment Mode"/>
                         </group>
                     </group>
 
                     <separator string=""/>
 
-                    <!-- ── Shipper &amp; Receiver Side-by-Side ── -->
                     <group>
                         <group string="Shipper Info — معلومات الشاحن">
-                            <field name="origin"
-                                   string="Origin"
-                                   placeholder="e.g. Saudi Arabia Riyadh"/>
-                            <field name="shipper_name"
-                                   string="Shipper Name"
-                                   placeholder="Full name of shipper"/>
-                            <field name="shipper_mobile"
-                                   string="Mobile"
-                                   widget="phone"
-                                   placeholder="e.g. 0599649593"/>
-                            <field name="shipper_tel"
-                                   string="Tel"
-                                   widget="phone"
-                                   placeholder="Optional landline"/>
-                            <field name="shipper_id_no"
-                                   string="ID No"
-                                   placeholder="National ID / Iqama"/>
-                            <field name="shipper_company"
-                                   string="Company"
-                                   placeholder="Company name"/>
-                            <field name="shipper_email"
-                                   string="Email"
-                                   widget="email"
-                                   placeholder="email@example.com"/>
-                            <field name="shipper_address"
-                                   string="Address"
-                                   placeholder="Full address"/>
+                            <field name="origin" string="Origin" placeholder="e.g. Saudi Arabia Riyadh"/>
+                            <field name="shipper_name" string="Shipper Name" placeholder="Full name of shipper"/>
+                            <field name="shipper_mobile" string="Mobile" widget="phone" placeholder="e.g. 0599649593"/>
+                            <field name="shipper_tel" string="Tel" widget="phone" placeholder="Optional landline"/>
+                            <field name="shipper_id_no" string="ID No" placeholder="National ID / Iqama"/>
+                            <field name="shipper_company" string="Company" placeholder="Company name"/>
+                            <field name="shipper_email" string="Email" widget="email" placeholder="email@example.com"/>
+                            <field name="shipper_address" string="Address" placeholder="Full address"/>
                         </group>
                         <group string="Receiver Info — معلومات استقبال">
-                            <field name="destination"
-                                   string="Destination"
-                                   placeholder="e.g. Doha Qatar"/>
-                            <field name="receiver_name"
-                                   string="Receiver Name"
-                                   placeholder="Full name of receiver"/>
-                            <field name="receiver_mobile"
-                                   string="Mobile"
-                                   widget="phone"
-                                   placeholder="e.g. 97430320008"/>
-                            <field name="receiver_tel"
-                                   string="Tel"
-                                   widget="phone"
-                                   placeholder="Optional landline"/>
-                            <field name="receiver_company"
-                                   string="Company"
-                                   placeholder="Company name"/>
-                            <field name="receiver_email"
-                                   string="Email"
-                                   widget="email"
-                                   placeholder="email@example.com"/>
-                            <field name="receiver_address"
-                                   string="Address"
-                                   placeholder="Full address"/>
+                            <field name="destination" string="Destination" placeholder="e.g. Doha Qatar"/>
+                            <field name="receiver_name" string="Receiver Name" placeholder="Full name of receiver"/>
+                            <field name="receiver_mobile" string="Mobile" widget="phone" placeholder="e.g. 97430320008"/>
+                            <field name="receiver_tel" string="Tel" widget="phone" placeholder="Optional landline"/>
+                            <field name="receiver_company" string="Company" placeholder="Company name"/>
+                            <field name="receiver_email" string="Email" widget="email" placeholder="email@example.com"/>
+                            <field name="receiver_address" string="Address" placeholder="Full address"/>
                         </group>
                     </group>
 
                     <separator string=""/>
 
-                    <!-- ── Cargo Details ── -->
                     <group string="Cargo Details — معلومات الشحن">
                         <group>
-                            <field name="weight"
-                                   string="Weight (kg)"
-                                   placeholder="0.00"/>
-                            <field name="pieces"
-                                   string="Pieces"
-                                   placeholder="1"/>
-                            <field name="carrier"
-                                   string="Carrier"
-                                   placeholder="e.g. Aramex, DHL"/>
-                            <field name="airway_bill"
-                                   string="Airway Bill"
-                                   placeholder="Tracking number"/>
+                            <field name="weight" string="Weight (kg)" placeholder="0.00"/>
+                            <field name="pieces" string="Pieces" placeholder="1"/>
+                            <field name="carrier" string="Carrier" placeholder="e.g. Aramex, DHL"/>
+                            <field name="airway_bill" string="Airway Bill" placeholder="Tracking number"/>
                         </group>
                         <group>
-                            <field name="product_info"
-                                   string="Product Info"
-                                   placeholder="Describe the cargo contents"/>
-                            <field name="special_info"
-                                   string="Special Info"
-                                   placeholder="Any special instructions"/>
+                            <field name="product_info" string="Product Info" placeholder="Describe the cargo contents"/>
+                            <field name="special_info" string="Special Info" placeholder="Any special instructions"/>
                         </group>
                     </group>
 
                     <separator string=""/>
 
-                    <!-- ── Financials ── -->
                     <group string="Invoice Details — تفاصيل الفاتورة">
                         <group>
-                            <field name="net_amount"
-                                   string="Net Amount (SAR)"
-                                   placeholder="0.00"/>
-                            <field name="vat_amount"
-                                   string="VAT 15%"
-                                   placeholder="0.00"/>
-                            <field name="extra_charge"
-                                   string="Extra Charge"
-                                   placeholder="0.00"/>
+                            <field name="net_amount" string="Net Amount (SAR)" placeholder="0.00"/>
+                            <field name="vat_amount" string="VAT 15%" placeholder="0.00"/>
+                            <field name="extra_charge" string="Extra Charge" placeholder="0.00"/>
                         </group>
                         <group>
                             <div class="oe_subtotal_footer">
@@ -179,6 +117,36 @@
 
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <!-- ═══ Graph View ═══ -->
+    <record id="cargo_manual_invoice_graph" model="ir.ui.view">
+        <field name="name">cargo.manual.invoice.graph</field>
+        <field name="model">cargo.manual.invoice</field>
+        <field name="arch" type="xml">
+            <graph string="Invoice Analysis" type="bar" sample="1">
+                <field name="shipping_date" interval="month"/>
+                <field name="gross_total" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ═══ Pivot View ═══ -->
+    <record id="cargo_manual_invoice_pivot" model="ir.ui.view">
+        <field name="name">cargo.manual.invoice.pivot</field>
+        <field name="model">cargo.manual.invoice</field>
+        <field name="arch" type="xml">
+            <pivot string="Invoice Analysis" sample="1">
+                <field name="shipping_date" interval="month" type="row"/>
+                <field name="shipment_type" type="col"/>
+                <field name="gross_total" type="measure"/>
+                <field name="net_amount" type="measure"/>
+                <field name="vat_amount" type="measure"/>
+                <field name="extra_charge" type="measure"/>
+                <field name="weight" type="measure"/>
+                <field name="pieces" type="measure"/>
+            </pivot>
         </field>
     </record>
 
@@ -200,6 +168,14 @@
                 <filter name="international" string="International"
                         domain="[('shipment_type','=','international')]"/>
                 <separator/>
+                <filter name="today" string="Today"
+                        domain="[('shipping_date','&gt;=', (context_today()).strftime('%%Y-%%m-%%d')),
+                                 ('shipping_date','&lt;', (context_today() + datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d'))]"/>
+                <filter name="this_month" string="This Month"
+                        domain="[('shipping_date','&gt;=', (context_today()).strftime('%%Y-%%m-01'))]"/>
+                <filter name="this_year" string="This Year"
+                        domain="[('shipping_date','&gt;=', (context_today()).strftime('%%Y-01-01'))]"/>
+                <separator/>
                 <group expand="0" string="Group By">
                     <filter name="group_shipment_type" string="Shipment Type"
                             context="{'group_by': 'shipment_type'}"/>
@@ -209,26 +185,30 @@
                             context="{'group_by': 'status'}"/>
                     <filter name="group_paymode" string="Payment Mode"
                             context="{'group_by': 'paymode'}"/>
-                    <filter name="group_date" string="Shipping Date"
+                    <filter name="group_day" string="Day"
+                            context="{'group_by': 'shipping_date:day'}"/>
+                    <filter name="group_month" string="Month"
                             context="{'group_by': 'shipping_date:month'}"/>
+                    <filter name="group_year" string="Year"
+                            context="{'group_by': 'shipping_date:year'}"/>
+                    <filter name="group_agent" string="Agent"
+                            context="{'group_by': 'agent_name'}"/>
                 </group>
             </search>
         </field>
     </record>
 
-    <!-- ═══ Window Action ═══ -->
+    <!-- ═══ Main Action (List + Form + Graph + Pivot) ═══ -->
     <record id="action_cargo_manual_invoice" model="ir.actions.act_window">
         <field name="name">Cargo Invoices</field>
         <field name="res_model">cargo.manual.invoice</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,form,graph,pivot</field>
         <field name="search_view_id" ref="cargo_manual_invoice_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first Cargo Invoice!
             </p>
-            <p>
-                Click the <b>New</b> button to start entering shipment details.
-            </p>
+            <p>Click the <b>New</b> button to start entering shipment details.</p>
         </field>
     </record>
 

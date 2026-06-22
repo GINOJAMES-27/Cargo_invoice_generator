@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Graph Report Action -->
+    <record id="action_cargo_invoice_report_graph" model="ir.actions.act_window">
+        <field name="name">Invoice Analysis — Chart</field>
+        <field name="res_model">cargo.manual.invoice</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="search_view_id" ref="cargo_manual_invoice_search"/>
+        <field name="context">{
+            'search_default_this_year': 1,
+            'search_default_group_month': 1,
+        }</field>
+    </record>
+
+    <!-- Pivot Report Action -->
+    <record id="action_cargo_invoice_report_pivot" model="ir.actions.act_window">
+        <field name="name">Invoice Analysis — Table</field>
+        <field name="res_model">cargo.manual.invoice</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="search_view_id" ref="cargo_manual_invoice_search"/>
+        <field name="context">{
+            'search_default_this_year': 1,
+        }</field>
+    </record>
+
+</odoo>
