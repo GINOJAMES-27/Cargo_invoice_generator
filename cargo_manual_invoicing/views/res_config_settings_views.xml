@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_easypost" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.cargo.shippo</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Cargo Invoicing" string="Cargo Invoicing" name="cargo_manual_invoicing" groups="base.group_user">
+                    <block title="Shippo Shipping Integration" name="shippo_integration">
+                        <setting string="Test/Sandbox Mode" help="When enabled, ensure you are using a Shippo Test Token (starts with shippo_test_).">
+                            <field name="shippo_test_mode"/>
+                        </setting>
+                        <setting string="API Token" help="Enter your Shippo API Token">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="shippo_api_key" class="col-lg-4 o_light_label"/>
+                                    <field name="shippo_api_key" class="oe_inline" password="True"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="Default Carrier Settings" help="Set your default carrier account token and service level">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="shippo_default_carrier" class="col-lg-4 o_light_label"/>
+                                    <field name="shippo_default_carrier" class="oe_inline" placeholder="e.g. dhl_express"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="shippo_default_servicelevel" class="col-lg-4 o_light_label"/>
+                                    <field name="shippo_default_servicelevel" class="oe_inline" placeholder="e.g. dhl_express_worldwide"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="Default Shipper Address" help="This address is used as the 'From' address for all shipments.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="shippo_shipper_name" class="col-lg-4 o_light_label"/>
+                                    <field name="shippo_shipper_name" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="shippo_shipper_street" class="col-lg-4 o_light_label"/>
+                                    <field name="shippo_shipper_street" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="shippo_shipper_city" class="col-lg-4 o_light_label"/>
+                                    <field name="shippo_shipper_city" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="shippo_shipper_zip" class="col-lg-4 o_light_label"/>
+                                    <field name="shippo_shipper_zip" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="shippo_shipper_country" class="col-lg-4 o_light_label"/>
+                                    <field name="shippo_shipper_country" class="oe_inline" placeholder="SA"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="shippo_shipper_phone" class="col-lg-4 o_light_label"/>
+                                    <field name="shippo_shipper_phone" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="shippo_shipper_email" class="col-lg-4 o_light_label"/>
+                                    <field name="shippo_shipper_email" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <div class="mt16">
+                            <button name="action_test_shippo_connection" type="object" string="Test Connection" class="btn-primary" icon="fa-plug"/>
+                        </div>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_cargo_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'cargo_manual_invoicing'}</field>
+    </record>
+</odoo>

@@ -1,6 +1,6 @@
 {
     'name': 'Cargo Manual Invoicing & PDF Generator',
-    'version': '18.0.1.0.0',
+    'version': '18.0.3.0.0',
     'category': 'Operations',
     'summary': 'Manual cargo invoice entry with dual-language PDF receipts',
     'description': """
@@ -16,6 +16,8 @@
     'data': [
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
+        'data/cron_data.xml',
+        'views/res_config_settings_views.xml',
         'views/cargo_manual_invoice_views.xml',
         'views/cargo_report_actions.xml',
         'views/cargo_manual_invoice_menus.xml',

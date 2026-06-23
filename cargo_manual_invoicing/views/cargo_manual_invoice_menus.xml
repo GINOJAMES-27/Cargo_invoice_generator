@@ -37,4 +37,16 @@
               action="action_cargo_invoice_report_pivot"
               sequence="20"/>
 
+    <!-- ── Configuration ── -->
+    <menuitem id="menu_cargo_configuration"
+              name="Configuration"
+              parent="menu_cargo_invoicing_root"
+              sequence="100"/>
+
+    <menuitem id="menu_cargo_config_settings"
+              name="Settings"
+              parent="menu_cargo_configuration"
+              action="action_cargo_config_settings"
+              sequence="10"/>
+
 </odoo>

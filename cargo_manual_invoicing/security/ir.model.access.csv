@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_cargo_manual_invoice_user,cargo.manual.invoice.user,model_cargo_manual_invoice,base.group_user,1,1,1,1
+access_cargo_shippo_rate_user,cargo.shippo.rate.user,model_cargo_shippo_rate,base.group_user,1,1,1,1

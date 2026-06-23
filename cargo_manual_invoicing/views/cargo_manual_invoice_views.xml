@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- ═══ Rate Option Tree View ═══ -->
+    <record id="view_cargo_shippo_rate_tree" model="ir.ui.view">
+        <field name="name">cargo.shippo.rate.tree</field>
+        <field name="model">cargo.shippo.rate</field>
+        <field name="arch" type="xml">
+            <list string="Rates" create="0" delete="0" editable="bottom">
+                <field name="provider" readonly="1"/>
+                <field name="servicelevel_name" readonly="1"/>
+                <field name="amount" readonly="1"/>
+                <field name="currency" readonly="1"/>
+                <field name="estimated_days" readonly="1"/>
+                <button name="action_select_rate" type="object" string="Select" class="btn-primary"/>
+            </list>
+        </field>
+    </record>
+
     <!-- ═══ List View ═══ -->
     <record id="cargo_manual_invoice_list" model="ir.ui.view">
         <field name="name">cargo.manual.invoice.list</field>
@@ -14,8 +30,8 @@
                 <field name="shipment_type" widget="badge"
                        decoration-info="shipment_type == 'domestic'"
                        decoration-primary="shipment_type == 'international'"/>
+                <field name="destination_country_id"/>
                 <field name="shipper_name" optional="show"/>
-                <field name="destination" optional="show"/>
                 <field name="receiver_name" optional="show"/>
                 <field name="carrier" optional="show"/>
                 <field name="paymode" widget="badge"
@@ -25,6 +41,9 @@
                 <field name="status" widget="badge"
                        decoration-success="status == 'DELIVERED'"
                        decoration-info="status != 'DELIVERED'"/>
+                <field name="shippo_sent" widget="boolean" string="Shipped"/>
+                <field name="shippo_tracking_status" widget="badge"/>
+                <field name="shippo_carrier_used" optional="show"/>
                 <field name="email_sent" widget="boolean" string="Emailed"/>
                 <field name="gross_total" sum="Total" decoration-bf="1"/>
             </list>
@@ -48,6 +67,30 @@
                             type="object"
                             class="btn-success"
                             icon="fa-envelope"/>
+                    <button name="action_get_shippo_rates"
+                            string="Get Rates"
+                            type="object"
+                            class="btn-warning"
+                            icon="fa-calculator"
+                            invisible="shippo_sent"/>
+                    <button name="action_buy_shippo_label"
+                            string="Buy Label"
+                            type="object"
+                            class="btn-warning"
+                            icon="fa-shopping-cart"
+                            invisible="shippo_sent or not shippo_transaction_id"/>
+                    <button name="action_track_shippo"
+                            string="Track Shipment"
+                            type="object"
+                            class="btn-info"
+                            icon="fa-map-marker"
+                            invisible="not shippo_sent"/>
+                    <button name="action_download_label"
+                            string="Download Label"
+                            type="object"
+                            class="btn-secondary"
+                            icon="fa-download"
+                            invisible="not shippo_label_url"/>
                     <field name="email_sent" widget="boolean_toggle" readonly="1"/>
                 </header>
                 <sheet>
@@ -90,7 +133,10 @@
                                     <field name="shipper_address" string="Address" placeholder="Full address"/>
                                 </group>
                                 <group string="Receiver Info — معلومات استقبال">
-                                    <field name="destination" string="Destination" placeholder="e.g. Doha Qatar"/>
+                                    <field name="destination" invisible="1"/>
+                                    <field name="destination_country_id" string="Destination Country" options="{'no_create': True}" placeholder="Select country..."/>
+                                    <field name="receiver_city" string="City" placeholder="e.g. Mumbai"/>
+                                    <field name="receiver_zip" string="ZIP / Postal Code" placeholder="e.g. 400001"/>
                                     <field name="receiver_name" string="Receiver Name" placeholder="Full name of receiver"/>
                                     <field name="receiver_mobile" string="Mobile" widget="phone" placeholder="e.g. 97430320008"/>
                                     <field name="receiver_tel" string="Tel" widget="phone" placeholder="Optional landline"/>
@@ -119,6 +165,33 @@
                                                class="oe_subtotal_footer_separator"
                                                string="GROSS TOTAL (SAR)"/>
                                     </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Shipping &amp; Tracking" name="shipping_tracking">
+                            <group>
+                                <group string="Shippo Shipment">
+                                    <field name="shippo_sent" string="Shipped via Shippo" readonly="1"/>
+                                    <field name="shippo_carrier_used" string="Carrier" readonly="1"/>
+                                    <field name="shippo_service_used" string="Service Level" readonly="1"/>
+                                    <field name="shippo_shipment_id" string="Shipment ID" readonly="1"/>
+                                </group>
+                                <group string="Rate &amp; Cost">
+                                    <field name="shippo_rate_estimate" string="Shipping Cost" readonly="1"/>
+                                    <field name="shippo_rate_currency" string="Currency" readonly="1"/>
+                                    <field name="shippo_est_delivery" string="Est. Delivery" readonly="1"/>
+                                </group>
+                                <group string="Available Rates" colspan="2" invisible="not shippo_rate_ids">
+                                    <field name="shippo_rate_ids" nolabel="1" readonly="shippo_sent" context="{'tree_view_ref': 'cargo_manual_invoicing.view_cargo_shippo_rate_tree'}"/>
+                                </group>
+                                <group string="Tracking">
+                                    <field name="shippo_tracking_status" string="Tracking Status" readonly="1" widget="badge"/>
+                                    <field name="shippo_tracking_url" string="Tracking URL" readonly="1" widget="url"/>
+                                    <field name="airway_bill" string="Tracking Number" readonly="shippo_sent"/>
+                                </group>
+                                <group string="Label">
+                                    <field name="shippo_label_url" string="Label URL" readonly="1" widget="url"/>
+                                    <field name="shippo_label" string="Shipping Label" filename="shipping_label.pdf" readonly="1"/>
                                 </group>
                             </group>
                         </page>
@@ -190,6 +263,11 @@
                 <filter name="not_emailed" string="Not Emailed"
                         domain="[('email_sent','=',False)]"/>
                 <separator/>
+                <filter name="shippo_shipped" string="Shipped (Shippo)"
+                        domain="[('shippo_sent','=',True)]"/>
+                <filter name="shippo_not_shipped" string="Not Shipped"
+                        domain="[('shippo_sent','=',False)]"/>
+                <separator/>
                 <group expand="0" string="Group By">
                     <filter name="group_shipment_type" string="Shipment Type"
                             context="{'group_by': 'shipment_type'}"/>
@@ -197,6 +275,10 @@
                             context="{'group_by': 'carrier'}"/>
                     <filter name="group_status" string="Status"
                             context="{'group_by': 'status'}"/>
+                    <filter name="group_carrier_shippo" string="Shippo Carrier"
+                            context="{'group_by': 'shippo_carrier_used'}"/>
+                    <filter name="group_tracking_status" string="Tracking Status"
+                            context="{'group_by': 'shippo_tracking_status'}"/>
                     <filter name="group_paymode" string="Payment Mode"
                             context="{'group_by': 'paymode'}"/>
                     <filter name="group_day" string="Day"

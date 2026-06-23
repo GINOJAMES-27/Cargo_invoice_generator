@@ -265,7 +265,7 @@
                     <td class="lbl">Origin:</td>
                     <td class="val"><t t-esc="doc.origin"/></td>
                     <td class="lbl">Destination:</td>
-                    <td class="val"><t t-esc="doc.destination"/></td>
+                    <td class="val"><t t-esc="doc.receiver_city"/>, <t t-esc="doc.destination_country_id.name"/></td>
                 </tr>
                 <tr>
                     <td class="lbl">Name:</td>
@@ -418,7 +418,7 @@
                     <div class="ci-sign-box">Sign or Name</div>
                 </div>
                 <div class="col-4 text-center" style="padding-top: 5px;">
-                    <img t-attf-src="/report/barcode/?barcode_type=QR&amp;value={{ '%s | %s | %s | %.2f SAR' % (doc.invoice_number.replace('/', '-'), doc.shipper_name or '', doc.destination or '', doc.gross_total) }}&amp;width=100&amp;height=100"
+                    <img t-attf-src="/report/barcode/?barcode_type=QR&amp;value={{ '%s | %s | %s | %.2f SAR' % (doc.invoice_number.replace('/', '-'), doc.shipper_name or '', doc.destination_country_id.name or '', doc.gross_total) }}&amp;width=100&amp;height=100"
      style="width: 100px; height: 100px;" alt="QR Code"/>
                 </div>
                 <div class="col-4 text-center">

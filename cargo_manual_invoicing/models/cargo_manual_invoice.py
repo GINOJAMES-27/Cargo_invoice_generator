@@ -5,6 +5,43 @@ import re
 import base64
 
 
+class CargoShippoRate(models.Model):
+    _name = 'cargo.shippo.rate'
+    _description = 'Shippo Shipping Rate Option'
+    
+    invoice_id = fields.Many2one('cargo.manual.invoice', string='Invoice', ondelete='cascade')
+    object_id = fields.Char(string='Rate ID')
+    provider = fields.Char(string='Carrier')
+    servicelevel_name = fields.Char(string='Service Level')
+    amount = fields.Float(string='Amount')
+    currency = fields.Char(string='Currency')
+    estimated_days = fields.Integer(string='Est. Days')
+    
+    def action_select_rate(self):
+        for rate in self:
+            rate.invoice_id.write({
+                'shippo_rate_estimate': rate.amount,
+                'shippo_rate_currency': rate.currency,
+                'shippo_est_delivery': str(rate.estimated_days),
+                'shippo_carrier_used': rate.provider,
+                'shippo_service_used': rate.servicelevel_name,
+                'shippo_transaction_id': rate.object_id,
+                'carrier': rate.provider,
+            })
+            
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': 'Rate Selected',
+                    'message': f"Selected {rate.provider} for {rate.amount} {rate.currency}",
+                    'type': 'success',
+                    'sticky': False,
+                    'next': {'type': 'ir.actions.client', 'tag': 'reload'},
+                }
+            }
+
+
 class CargoManualInvoice(models.Model):
     _name = 'cargo.manual.invoice'
     _description = 'Cargo Manual Invoice'
@@ -55,7 +92,10 @@ class CargoManualInvoice(models.Model):
     shipper_address = fields.Char(string='Address', required=True)
 
     # ── Receiver Info ──────────────────────────────────────────────────
-    destination = fields.Char(string='Destination', required=True)
+    destination = fields.Char(string='Old Destination', required=False, help="Deprecated field")
+    destination_country_id = fields.Many2one('res.country', string='Destination Country', required=True)
+    receiver_city = fields.Char(string='City', required=True)
+    receiver_zip = fields.Char(string='ZIP / Postal Code', required=True)
     receiver_name = fields.Char(string='Receiver Name', required=True)
     receiver_mobile = fields.Char(string='Mobile', required=True)
     receiver_tel = fields.Char(string='Tel')
@@ -315,3 +355,183 @@ class CargoManualInvoice(models.Model):
                 'sticky': False,
             }
         }
+
+    # ── Shippo Integration Fields ──────────────────────────────────────
+    shippo_rate_ids = fields.One2many('cargo.shippo.rate', 'invoice_id', string='Available Rates')
+    shippo_sent = fields.Boolean(string="Shipped via Shippo", default=False, copy=False)
+    shippo_shipment_id = fields.Char(string="Shippo Shipment ID", copy=False)
+    shippo_transaction_id = fields.Char(string="Shippo Transaction ID", copy=False)
+    shippo_rate_estimate = fields.Float(string="Estimated Shipping Cost", copy=False)
+    shippo_rate_currency = fields.Char(string="Currency", copy=False)
+    shippo_est_delivery = fields.Char(string="Est. Delivery Days", copy=False)
+    shippo_tracking_status = fields.Char(string="Tracking Status", default='Not Created', copy=False, tracking=True)
+    shippo_tracking_url = fields.Char(string="Tracking URL", copy=False)
+    shippo_label_url = fields.Char(string="Label URL", copy=False)
+    shippo_carrier_used = fields.Char(string="Carrier Used", copy=False)
+    shippo_service_used = fields.Char(string="Service Level Used", copy=False)
+    shippo_label = fields.Binary(string="Shipping Label", copy=False, attachment=True)
+
+    def action_get_shippo_rates(self):
+        self.ensure_one()
+        try:
+            service = self.env['shippo.integration.service']
+            shipment = service.create_shipment(self)
+            
+            self.shippo_shipment_id = shipment.object_id
+            
+            # Clear existing rates
+            self.shippo_rate_ids.unlink()
+            
+            # Find the best rate from our default carrier
+            default_carrier = self.env['ir.config_parameter'].sudo().get_param('cargo_manual_invoicing.shippo_default_carrier', 'dhl_express')
+            default_service = self.env['ir.config_parameter'].sudo().get_param('cargo_manual_invoicing.shippo_default_servicelevel', 'dhl_express_worldwide')
+            
+            best_rate = None
+            rate_vals_list = []
+            
+            for rate in shipment.rates:
+                rate_vals = {
+                    'invoice_id': self.id,
+                    'object_id': rate.object_id,
+                    'provider': rate.provider,
+                    'servicelevel_name': rate.servicelevel.name,
+                    'amount': float(rate.amount),
+                    'currency': rate.currency,
+                    'estimated_days': getattr(rate, 'estimated_days', 0) or 0,
+                }
+                rate_vals_list.append(rate_vals)
+                
+                if rate.provider == default_carrier and rate.servicelevel.token == default_service:
+                    best_rate = rate
+                    
+            if rate_vals_list:
+                self.env['cargo.shippo.rate'].create(rate_vals_list)
+            
+            if not best_rate and shipment.rates:
+                # Fallback to cheapest rate if default isn't found
+                best_rate = min(shipment.rates, key=lambda r: float(r.amount))
+                
+            if not best_rate:
+                # pyrefly: ignore [missing-import]
+                from odoo.exceptions import UserError
+                raise UserError("No rates returned by Shippo for this route.")
+
+            self.shippo_rate_estimate = float(best_rate.amount)
+            self.shippo_rate_currency = best_rate.currency
+            self.shippo_est_delivery = best_rate.estimated_days or 'Unknown'
+            self.shippo_carrier_used = best_rate.provider
+            self.shippo_service_used = best_rate.servicelevel.name
+            
+            # Save the rate object_id in transaction_id temporarily until we buy it
+            self.shippo_transaction_id = best_rate.object_id
+            
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': 'Rates Retrieved',
+                    'message': f"Estimated cost: {best_rate.amount} {best_rate.currency} via {best_rate.provider}",
+                    'type': 'success',
+                    'sticky': False,
+                    'next': {'type': 'ir.actions.client', 'tag': 'reload'},
+                }
+            }
+        except Exception as e:
+            # pyrefly: ignore [missing-import]
+            from odoo.exceptions import UserError
+            raise UserError(str(e))
+
+    def action_buy_shippo_label(self):
+        self.ensure_one()
+        if not self.shippo_transaction_id:
+            # pyrefly: ignore [missing-import]
+            from odoo.exceptions import UserError
+            raise UserError("Please Get Rates first before buying a label.")
+
+        try:
+            service = self.env['shippo.integration.service']
+            transaction = service.buy_label(self.shippo_transaction_id)
+            
+            if transaction.status == 'SUCCESS':
+                self.shippo_sent = True
+                self.shippo_transaction_id = transaction.object_id
+                self.shippo_label_url = transaction.label_url
+                self.shippo_tracking_url = transaction.tracking_url_provider
+                self.airway_bill = transaction.tracking_number
+                self.shippo_tracking_status = 'PRE_TRANSIT'
+                self.status = 'SHIPPED'
+                
+                # Download label
+                import requests
+                import base64
+                response = requests.get(transaction.label_url)
+                if response.status_code == 200:
+                    self.shippo_label = base64.b64encode(response.content)
+            else:
+                # pyrefly: ignore [missing-import]
+                from odoo.exceptions import UserError
+                
+                carrier_errors = []
+                if hasattr(transaction, 'messages') and transaction.messages:
+                    for m in transaction.messages:
+                        if isinstance(m, dict) and 'text' in m:
+                            carrier_errors.append(m['text'])
+                        elif hasattr(m, 'text'):
+                            carrier_errors.append(m.text)
+                            
+                if carrier_errors:
+                    msg = "\n".join(carrier_errors)
+                else:
+                    msg = f"Raw Response:\n{str(transaction)}"
+                    
+                raise UserError(f"Label purchase failed:\n{msg}")
+
+        except Exception as e:
+            # pyrefly: ignore [missing-import]
+            from odoo.exceptions import UserError
+            raise UserError(str(e))
+
+    def action_track_shippo(self):
+        self.ensure_one()
+        if not self.airway_bill or not self.shippo_carrier_used:
+            return
+
+        try:
+            service = self.env['shippo.integration.service']
+            status = service.track_shipment(self.shippo_carrier_used, self.airway_bill)
+            
+            if status and status.tracking_status:
+                self.shippo_tracking_status = status.tracking_status.status
+                if self.shippo_tracking_status == 'DELIVERED':
+                    self.status = 'DELIVERED'
+                
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'title': 'Tracking Updated',
+                        'message': f"Current Status: {self.shippo_tracking_status}",
+                        'type': 'success',
+                        'sticky': False,
+                    }
+                }
+        except Exception as e:
+            pass
+
+    def action_download_label(self):
+        self.ensure_one()
+        if self.shippo_label_url:
+            return {
+                'type': 'ir.actions.act_url',
+                'url': self.shippo_label_url,
+                'target': 'new',
+            }
+
+    @api.model
+    def _cron_update_shippo_tracking(self):
+        shipments = self.search([
+            ('shippo_sent', '=', True),
+            ('shippo_tracking_status', 'not in', ['DELIVERED', 'RETURNED', 'FAILURE'])
+        ])
+        for shipment in shipments:
+            shipment.action_track_shippo()
