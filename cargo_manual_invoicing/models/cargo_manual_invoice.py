@@ -3,6 +3,9 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 import re
 import base64
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class CargoManualInvoice(models.Model):
@@ -43,6 +46,14 @@ class CargoManualInvoice(models.Model):
         default=False,
         copy=False,
     )
+
+    # ── DHL Integration ─────────────────────────────────────────────────
+    dhl_tracking_url = fields.Char(string='DHL Tracking URL', readonly=True)
+    dhl_label = fields.Binary(string='DHL Label')
+    dhl_rate_estimate = fields.Float(string='DHL Rate Estimate', readonly=True)
+    dhl_status = fields.Char(string='DHL Status', readonly=True)
+    dhl_sent = fields.Boolean(string='Sent to DHL', default=False)
+
 
     # ── Shipper Info ───────────────────────────────────────────────────
     origin = fields.Char(string='Origin', default='Saudi Arabia Riyadh', required=True)
@@ -315,3 +326,79 @@ class CargoManualInvoice(models.Model):
                 'sticky': False,
             }
         }
+
+    def action_send_to_dhl(self):
+        self.ensure_one()
+        try:
+            tracking_number, tracking_url, label_base64 = self.env['dhl.integration.service'].dhl_create_shipment(self)
+            if tracking_number:
+                self.write({
+                    'airway_bill': tracking_number,
+                    'dhl_tracking_url': tracking_url,
+                    'dhl_label': label_base64,
+                    'dhl_sent': True,
+                    'dhl_status': 'Shipment Created'
+                })
+                self.message_post(body=f"Sent to DHL. Tracking Number: {tracking_number}")
+        except Exception as e:
+            raise ValidationError(f"DHL Error: {str(e)}")
+
+    def action_track_dhl(self):
+        self.ensure_one()
+        if not self.airway_bill:
+            raise ValidationError("No Airway Bill to track.")
+        try:
+            status = self.env['dhl.integration.service'].dhl_track_shipment(self.airway_bill)
+            self.write({
+                'dhl_status': status,
+                'status': 'DELIVERED' if status.upper() == 'DELIVERED' else self.status
+            })
+            self.message_post(body=f"DHL Status Update: {status}")
+        except Exception as e:
+            raise ValidationError(f"DHL Error: {str(e)}")
+
+    def action_get_dhl_rate(self):
+        self.ensure_one()
+        try:
+            rate = self.env['dhl.integration.service'].dhl_get_rates(self)
+            self.dhl_rate_estimate = rate
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': 'DHL Rate',
+                    'message': f'Estimated Cost: {rate}',
+                    'type': 'info',
+                    'sticky': False,
+                }
+            }
+        except Exception as e:
+            raise ValidationError(f"DHL Error: {str(e)}")
+
+    def action_download_dhl_label(self):
+        self.ensure_one()
+        if not self.dhl_label:
+            raise ValidationError("No label available for download.")
+        
+        attachment = self.env['ir.attachment'].create({
+            'name': f'DHL_Label_{self.airway_bill}.pdf',
+            'type': 'binary',
+            'datas': self.dhl_label,
+            'res_model': self._name,
+            'res_id': self.id,
+            'mimetype': 'application/pdf',
+        })
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+            'target': 'self',
+        }
+
+    @api.model
+    def _cron_track_dhl_shipments(self):
+        invoices = self.search([('dhl_sent', '=', True), ('status', '!=', 'DELIVERED')])
+        for inv in invoices:
+            try:
+                inv.action_track_dhl()
+            except Exception as e:
+                _logger.error(f"Failed to track DHL shipment for {inv.invoice_number}: {str(e)}")

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_dhl" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.cargo</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Cargo Invoicing" string="Cargo Invoicing" name="cargo_manual_invoicing" groups="base.group_user">
+                    <block title="DHL Express Integration" name="dhl_integration">
+                        <setting string="Sandbox Mode" help="Enable sandbox mode for testing (no real shipments created)">
+                            <field name="dhl_sandbox_mode"/>
+                        </setting>
+                        <setting string="API Credentials" help="Enter your DHL Express API credentials">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="dhl_api_key" class="col-lg-4 o_light_label"/>
+                                    <field name="dhl_api_key" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="dhl_api_secret" class="col-lg-4 o_light_label"/>
+                                    <field name="dhl_api_secret" class="oe_inline" password="True"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="dhl_account_number" class="col-lg-4 o_light_label"/>
+                                    <field name="dhl_account_number" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="Endpoint URLs" help="DHL Express API Endpoint URLs">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="dhl_sandbox_url" class="col-lg-4 o_light_label"/>
+                                    <field name="dhl_sandbox_url" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="dhl_production_url" class="col-lg-4 o_light_label"/>
+                                    <field name="dhl_production_url" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="Default Shipper Location" help="Default location details for shipping">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="dhl_shipper_country_code" class="col-lg-4 o_light_label"/>
+                                    <field name="dhl_shipper_country_code" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="dhl_shipper_city" class="col-lg-4 o_light_label"/>
+                                    <field name="dhl_shipper_city" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="dhl_shipper_postal_code" class="col-lg-4 o_light_label"/>
+                                    <field name="dhl_shipper_postal_code" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <div class="mt16">
+                            <button name="action_test_dhl_connection" type="object" string="Test Connection" class="btn-primary" icon="fa-plug"/>
+                        </div>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_cargo_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'cargo_manual_invoicing'}</field>
+    </record>
+</odoo>

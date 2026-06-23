@@ -38,6 +38,26 @@
         <field name="arch" type="xml">
             <form string="Cargo Invoice">
                 <header>
+                    <button name="action_send_to_dhl"
+                            string="Send to DHL"
+                            type="object"
+                            class="btn-warning"
+                            icon="fa-truck"
+                            invisible="dhl_sent"/>
+                    <button name="action_track_dhl"
+                            string="Track Shipment"
+                            type="object"
+                            icon="fa-map-marker"
+                            invisible="not dhl_sent"/>
+                    <button name="action_get_dhl_rate"
+                            string="Get DHL Rate"
+                            type="object"
+                            icon="fa-calculator"/>
+                    <button name="action_download_dhl_label"
+                            string="Download Label"
+                            type="object"
+                            icon="fa-download"
+                            invisible="not dhl_label"/>
                     <button name="action_print_invoice"
                             string="Print Invoice"
                             type="object"
@@ -119,6 +139,19 @@
                                                class="oe_subtotal_footer_separator"
                                                string="GROSS TOTAL (SAR)"/>
                                     </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="DHL Integration" name="dhl_integration">
+                            <group>
+                                <group string="DHL Status">
+                                    <field name="dhl_sent" widget="boolean_toggle" readonly="1"/>
+                                    <field name="dhl_status" widget="badge" decoration-info="1"/>
+                                    <field name="dhl_tracking_url" widget="url"/>
+                                </group>
+                                <group string="DHL Details">
+                                    <field name="dhl_rate_estimate"/>
+                                    <field name="dhl_label" filename="airway_bill" widget="binary" readonly="1"/>
                                 </group>
                             </group>
                         </page>

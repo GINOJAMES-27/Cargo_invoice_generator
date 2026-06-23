@@ -13,9 +13,14 @@
     """,
     'author': 'Brightness of Hope Air Cargo Est',
     'depends': ['base', 'mail'],
+    'external_dependencies': {
+        'python': ['requests'],
+    },
     'data': [
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
+        'data/cron_data.xml',
+        'views/res_config_settings_views.xml',
         'views/cargo_manual_invoice_views.xml',
         'views/cargo_report_actions.xml',
         'views/cargo_manual_invoice_menus.xml',
