@@ -25,6 +25,18 @@
               parent="menu_cargo_invoicing_root"
               sequence="20"/>
 
+    <menuitem id="menu_daily_collection_report"
+              name="Daily Collection Report"
+              parent="menu_cargo_reporting"
+              action="action_cargo_daily_report_wizard"
+              sequence="30"/>
+
+    <menuitem id="menu_daily_collection_report_main"
+              name="Daily Collection Report"
+              parent="menu_cargo_invoicing_main"
+              action="action_cargo_daily_report_wizard"
+              sequence="20"/>
+
     <menuitem id="menu_cargo_invoice_graph"
               name="Invoice Analysis (Chart)"
               parent="menu_cargo_reporting"

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cargo_daily_report_wizard_form" model="ir.ui.view">
+        <field name="name">cargo.daily.report.wizard.form</field>
+        <field name="model">cargo.daily.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Daily Collection Report">
+                <header>
+                    <button string="Today" type="object" name="action_set_today" class="btn-secondary"/>
+                    <button string="Yesterday" type="object" name="action_set_yesterday" class="btn-secondary"/>
+                    <button string="This Week" type="object" name="action_set_this_week" class="btn-secondary"/>
+                    <button string="This Month" type="object" name="action_set_this_month" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Date Range">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group string="Filters">
+                            <field name="agent_filter" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="paymode_filter"/>
+                        </group>
+                    </group>
+                    <group string="Report Options">
+                        <field name="report_type" widget="radio" options="{'horizontal': true}"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_generate_report" string="Generate PDF" type="object" class="btn-primary" icon="fa-file-pdf-o"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cargo_daily_report_wizard" model="ir.actions.act_window">
+        <field name="name">Daily Collection Report</field>
+        <field name="res_model">cargo.daily.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

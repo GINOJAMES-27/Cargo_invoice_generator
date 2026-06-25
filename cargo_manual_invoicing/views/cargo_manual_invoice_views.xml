@@ -151,16 +151,16 @@
                                 <group string="Cargo Details — معلومات الشحن">
                                     <field name="weight" string="Weight (kg)" placeholder="0.00"/>
                                     <field name="pieces" string="Pieces" placeholder="1"/>
-                                    <field name="carrier" string="Carrier" placeholder="e.g. Aramex, DHL" readonly="carrier"/>
+                                    <field name="carrier" string="Carrier" placeholder="e.g. Aramex, DHL" readonly="carrier" force_save="1"/>
                                     <field name="airway_bill" string="Airway Bill" placeholder="Tracking number"/>
                                     <field name="product_info" string="Product Info" placeholder="Describe the cargo contents"/>
                                     <field name="special_info" string="Special Info" placeholder="Any special instructions"/>
                                 </group>
-                                <group string="Invoice Details — تفاصيل الفاتورة">
-                                    <field name="net_amount" string="Net Amount (SAR)" placeholder="0.00"/>
-                                    <field name="vat_amount" string="VAT 15%" placeholder="0.00"/>
-                                    <field name="extra_charge" string="Extra Charge" placeholder="0.00"/>
-                                    <field name="gross_total" string="Gross Total (SAR)"/>
+                                <group string="Invoice Details — تفاصيل الفاتورة" class="oe_subtotal_footer oe_right">
+                                    <field name="net_amount" string="Net Amount (SAR)"/>
+                                    <field name="vat_amount" string="VAT 15%"/>
+                                    <field name="extra_charge" string="Extra Charge"/>
+                                    <field name="gross_total" string="Gross Total (SAR)" class="oe_subtotal_footer_separator"/>
                                 </group>
                             </group>
                         </page>
