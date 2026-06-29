@@ -139,7 +139,11 @@ class CargoManualInvoice(models.Model):
         tracking=True,
     )
 
-    # ── ZATCA QR Code ──────────────────────────────────────────────────
+    # ── ZATCA Configuration ────────────────────────────────────────────
+    zatca_invoice_hash = fields.Char(string='ZATCA Invoice Hash', readonly=True, help="SHA-256 hash of the generated ZATCA XML.")
+    zatca_previous_hash = fields.Char(string='Previous Invoice Hash (PIH)', readonly=True, help="Hash of the previous invoice in the sequence.")
+    zatca_signed_xml = fields.Text(string='Signed ZATCA XML', readonly=True, help="The final, signed UBL 2.1 XML ready for submission.")
+
     zatca_qr_image = fields.Binary(
         string='ZATCA QR Code',
         compute='_compute_zatca_qr_image',
@@ -260,7 +264,41 @@ class CargoManualInvoice(models.Model):
                 vals['invoice_number'] = self.env['ir.sequence'].next_by_code(
                     'cargo.manual.invoice'
                 ) or 'New'
-        return super().create(vals_list)
+            
+            # ── ZATCA Hash Chaining (PIH) ──
+            # Look up the most recent invoice by ID
+            last_invoice = self.search([], order='id desc', limit=1)
+            if last_invoice and last_invoice.zatca_invoice_hash:
+                vals['zatca_previous_hash'] = last_invoice.zatca_invoice_hash
+            else:
+                # First invoice base hash
+                vals['zatca_previous_hash'] = 'NWZlY2ViNjZmZmM4NmYzOGQ5NTI3ODZjNmQ2OTZjNzljMmRiYzIzOWRkNGU5MWI0NjcyOWQ3M2EyN2ZiNTdlOQ=='
+                
+        records = super().create(vals_list)
+        
+        # Now that records are created and have their IDs, generate the ZATCA XML and store the hash
+        for rec in records:
+            # We will implement ZatcaXmlBuilder next, which will return the base64 hash
+            try:
+                # Need to use sudo() to access settings. res.config.settings is transient.
+                settings = self.env['res.config.settings'].sudo().create({})
+                
+                # Phase C: Generate XML and Hash
+                invoice_root, invoice_hash = self.env['zatca.xml.builder'].generate_and_hash_invoice(rec, settings)
+                if invoice_hash:
+                    rec.zatca_invoice_hash = invoice_hash
+                    
+                    # Phase D: Sign the XML
+                    signed_xml_string = self.env['zatca.signing.service'].sign_xml(invoice_root, settings)
+                    if signed_xml_string:
+                        rec.zatca_signed_xml = signed_xml_string
+
+            except Exception as e:
+                _logger.error("Failed to generate ZATCA XML Hash during creation: %s", str(e))
+                # For this prototype we won't block creation, but in real ZATCA you might
+                pass
+                
+        return records
 
     def action_print_invoice(self):
         return self.env.ref(

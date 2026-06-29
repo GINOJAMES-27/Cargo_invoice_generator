@@ -13,7 +13,7 @@
     """,
     'author': 'Brightness of Hope Air Cargo Est',
     'depends': ['base', 'mail'],
-    'external_dependencies': {'python': ['qrcode']},
+    'external_dependencies': {'python': ['qrcode', 'cryptography', 'pyopenssl', 'lxml']},
     'data': [
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
@@ -27,6 +27,7 @@
         'report/cargo_manual_invoice_template.xml',
         'report/daily_collection_report_action.xml',
         'report/daily_collection_report_template.xml',
+        'wizard/zatca_otp_wizard_views.xml',
     ],
     'installable': True,
     'application': True,

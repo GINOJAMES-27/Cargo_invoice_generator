@@ -191,24 +191,26 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="ZATCA QR Code" name="zatca_qr">
+                        <page string="ZATCA Details" name="zatca_qr">
                             <group>
-                                <group>
-                                    <field name="zatca_qr_image" widget="image" readonly="1" nolabel="1" options="{'size': [200, 200]}"/>
+                                <group string="Cryptographic Hashes">
+                                    <field name="zatca_previous_hash" />
+                                    <field name="zatca_invoice_hash" />
                                 </group>
-                                <group>
-                                    <div class="alert alert-info" role="alert">
-                                        <h4 class="alert-heading">ZATCA Phase 1 Compliant QR Code</h4>
-                                        <p>This QR code automatically encodes the following required fields in TLV Base64 format:</p>
-                                        <ol>
-                                            <li><strong>Seller Name:</strong> مؤسسة سطوع الأمل للشحن الجوي</li>
-                                            <li><strong>VAT Number:</strong> 311239685900003</li>
-                                            <li><strong>Time Stamp:</strong> Date &amp; Time of Invoice</li>
-                                            <li><strong>Invoice Total:</strong> Gross Total Amount</li>
-                                            <li><strong>VAT Total:</strong> VAT Amount (15%)</li>
-                                        </ol>
-                                    </div>
+                                <group string="QR Code">
+                                    <field name="zatca_qr_image" widget="image" readonly="1" nolabel="1" style="max-width: 150px; max-height: 150px;"/>
                                 </group>
+                            </group>
+                            <group>
+                                <div class="alert alert-info" role="alert" colspan="2">
+                                    <h4 class="alert-heading">ZATCA Phase 1 Compliant QR Code</h4>
+                                    <p class="mb-0">This QR code contains the standard TLV (Tag-Length-Value) Base64 encoded string required by ZATCA.</p>
+                                </div>
+                            </group>
+                        </page>
+                        <page string="ZATCA Payload" name="zatca_payload">
+                            <group>
+                                <field name="zatca_signed_xml" widget="text" readonly="1" nolabel="1" placeholder="The signed XML will appear here automatically upon saving."/>
                             </group>
                         </page>
                     </notebook>

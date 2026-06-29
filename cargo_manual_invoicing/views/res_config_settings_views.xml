@@ -68,6 +68,87 @@
                             <button name="action_test_shippo_connection" type="object" string="Test Connection" class="btn-primary" icon="fa-plug"/>
                         </div>
                     </block>
+                    
+                    <block title="ZATCA E-Invoicing Integration" name="zatca_integration">
+                        <setting string="Environment Settings" help="Configure the connection to ZATCA Fatoora Portal">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="zatca_sandbox_mode" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_sandbox_mode" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="zatca_sandbox_url" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_sandbox_url" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="zatca_production_url" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_production_url" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </setting>
+
+                        <setting string="CSR Configuration" help="Company information used to generate the Certificate Signing Request">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="zatca_company_name" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_company_name" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="zatca_vat_number" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_vat_number" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="zatca_cr_number" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_cr_number" class="oe_inline"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="zatca_invoice_type" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_invoice_type" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </setting>
+
+                        <setting string="Authentication Credentials" help="API keys and certificates provided by ZATCA">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="zatca_api_key" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_api_key" class="oe_inline" password="True"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="zatca_api_secret" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_api_secret" class="oe_inline" password="True"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="zatca_request_id" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_request_id" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </setting>
+
+                        <setting string="Certificates &amp; Keys" help="Your private key and production CSID. These are generated during onboarding.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="zatca_private_key" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_private_key" class="oe_inline" password="True"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="zatca_production_csid" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_production_csid" class="oe_inline" password="True"/>
+                                </div>
+                                <div class="row mt16">
+                                    <label for="zatca_cert_expiry" class="col-lg-4 o_light_label"/>
+                                    <field name="zatca_cert_expiry" class="oe_inline" readonly="1"/>
+                                </div>
+                            </div>
+                        </setting>
+                        
+                        <div class="mt16">
+                            <button name="action_zatca_generate_csr" type="object" string="1. Generate Private Key &amp; CSR" class="btn-primary"/>
+                            <button name="action_zatca_get_compliance_csid" type="object" string="2. Get Compliance CSID" class="btn-primary ml8"/>
+                            <button name="action_zatca_run_compliance_checks" type="object" string="3. Run Compliance Tests" class="btn-primary ml8"/>
+                            <button name="action_zatca_get_production_csid" type="object" string="4. Get Production CSID" class="btn-secondary ml8"/>
+                        </div>
+                    </block>
                 </app>
             </xpath>
         </field>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_zatca_otp_wizard_form" model="ir.ui.view">
+        <field name="name">zatca.otp.wizard.form</field>
+        <field name="model">zatca.otp.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Enter ZATCA OTP">
+                <sheet>
+                    <group>
+                        <field name="otp" placeholder="e.g. 123456"/>
+                    </group>
+                    <p class="text-muted">
+                        Please generate a One-Time Password (OTP) from the Fatoora developer portal and enter it above to receive your Compliance CSID.
+                    </p>
+                </sheet>
+                <footer>
+                    <button string="Submit OTP" name="action_submit_otp" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_zatca_otp_wizard" model="ir.actions.act_window">
+        <field name="name">ZATCA OTP</field>
+        <field name="res_model">zatca.otp.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
