@@ -128,3 +128,4 @@ class ZatcaSigningService(models.AbstractModel):
         except Exception as e:
             _logger.error("ZATCA Signing Failed: %s", str(e))
             return False
+#Zatcha Integration Till Phase D completed
