@@ -1,6 +1,6 @@
 from odoo import models, fields, api
 # pyrefly: ignore [missing-import]
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 import re
 import base64
 import logging
@@ -148,6 +148,14 @@ class CargoManualInvoice(models.Model):
         string='ZATCA QR Code',
         help='ZATCA Phase 2 Enhanced QR Code',
     )
+    
+    zatca_status = fields.Selection([
+        ('pending', 'Pending'),
+        ('reported', 'Reported'),
+        ('cleared', 'Cleared'),
+        ('failed', 'Failed')
+    ], string='ZATCA Status', default='pending', readonly=True, tracking=True)
+    zatca_response_msgs = fields.Text(string='ZATCA Response Messages', readonly=True)
 
     def _generate_zatca_phase2_qr(self):
         """Generates Phase 2 ZATCA QR Code containing 9 TLV tags."""
@@ -745,3 +753,114 @@ class CargoManualInvoice(models.Model):
         ])
         for shipment in shipments:
             shipment.action_track_shippo()
+
+    def action_send_zatca(self):
+        """Generates XML, signs it, builds QR, and sends to ZATCA Compliance/Reporting API."""
+        self.ensure_one()
+        # pyrefly: ignore [missing-import]
+        try:
+            import requests
+            import base64
+            import json
+            # pyrefly: ignore [missing-import]
+            from lxml import etree
+        except ImportError:
+            raise UserError("Missing required python packages: requests, base64, json, lxml.")
+
+        settings = self.env['res.config.settings'].sudo().create({})
+        
+        # 1. Generate XML and Hash
+        if not self.zatca_invoice_hash or not self.zatca_signed_xml:
+            invoice_root, invoice_hash_b64 = self.env['zatca.xml.builder'].sudo().generate_and_hash_invoice(self, settings)
+            if not invoice_hash_b64:
+                raise UserError("Failed to generate XML Hash.")
+            
+            # 2. Sign XML
+            signed_xml_str = self.env['zatca.signing.service'].sudo().sign_xml(invoice_root, settings, invoice_hash_b64)
+            if not signed_xml_str:
+                raise UserError("Failed to sign XML.")
+            
+            self.zatca_invoice_hash = invoice_hash_b64
+            self.zatca_signed_xml = signed_xml_str
+
+        # 3. Generate QR Code directly into the signed XML
+        try:
+            self._generate_zatca_phase2_qr()
+        except Exception as e:
+            _logger.warning("QR generation error ignored for DB save: %s", str(e))
+            
+        if not self.zatca_signed_xml or ">PLACEHOLDER<" in self.zatca_signed_xml:
+            raise UserError("QR Code generation failed. Signed XML is incomplete.")
+
+        # Extract UUID
+        qr_xml_str = self.zatca_signed_xml
+        root = etree.fromstring(qr_xml_str.encode('utf-8'))
+        uuid_elem = root.find('.//{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}UUID')
+        uuid_val = uuid_elem.text if uuid_elem is not None else '00000000-0000-0000-0000-000000000000'
+
+        # Build payload
+        payload = {
+            'invoiceHash': self.zatca_invoice_hash,
+            'uuid': uuid_val,
+            'invoice': base64.b64encode(qr_xml_str.encode('utf-8')).decode('utf-8')
+        }
+
+        # Setup API Request
+        base_url = self.env['ir.config_parameter'].sudo().get_param('cargo_manual_invoicing.zatca_sandbox_url') or "https://gw-fatoora.zatca.gov.sa/e-invoicing/developer-portal"
+        base_url = base_url.rstrip('/')
+        
+        if 'developer-portal' in base_url:
+            url = base_url + '/compliance/invoices'
+        else:
+            # We generate Simplified Invoices (0200000), so we must use the Reporting endpoint
+            url = base_url + '/invoices/reporting/single'
+        
+        csid = self.env['ir.config_parameter'].sudo().get_param('cargo_manual_invoicing.zatca_api_key')
+        secret = self.env['ir.config_parameter'].sudo().get_param('cargo_manual_invoicing.zatca_api_secret')
+        if not csid or not secret:
+            raise UserError("ZATCA API Key (CSID) or Secret is missing in settings.")
+
+        auth_str = f"{csid.strip()}:{secret.strip()}"
+        auth_b64 = base64.b64encode(auth_str.encode('utf-8')).decode('utf-8')
+
+        headers = {
+            'Accept-Version': 'V2',
+            'Accept-Language': 'en',
+            'Clearance-Status': '0',  # 0 for Simplified Invoices, 1 for Standard
+            'Content-Type': 'application/json',
+            'Authorization': f'Basic {auth_b64}'
+        }
+
+        try:
+            response = requests.post(url, json=payload, headers=headers, timeout=15)
+            resp_data = response.json()
+            
+            # Parse Status
+            reporting_status = resp_data.get('reportingStatus', '')
+            clearance_status = resp_data.get('clearanceStatus', '')
+            val_results = resp_data.get('validationResults', {})
+            val_status = val_results.get('status', '')
+            
+            # Determine overall status
+            if reporting_status == 'REPORTED' or clearance_status == 'CLEARED' or val_status == 'PASS':
+                self.zatca_status = 'reported' if reporting_status == 'REPORTED' else 'cleared'
+            else:
+                self.zatca_status = 'failed'
+                
+            # Formatting Response Messages
+            msgs = []
+            if val_results.get('errorMessages'):
+                msgs.append("ERRORS:\n" + "\n".join([f"- {m.get('code')}: {m.get('message')}" for m in val_results['errorMessages']]))
+            if val_results.get('warningMessages'):
+                msgs.append("WARNINGS:\n" + "\n".join([f"- {m.get('code')}: {m.get('message')}" for m in val_results['warningMessages']]))
+            if val_results.get('infoMessages'):
+                msgs.append("INFO:\n" + "\n".join([f"- {m.get('code')}: {m.get('message')}" for m in val_results['infoMessages']]))
+                
+            self.zatca_response_msgs = "\n\n".join(msgs) if msgs else json.dumps(resp_data, indent=2)
+            
+            if response.status_code not in (200, 202):
+                _logger.error("ZATCA Submission Failed: HTTP %s - %s", response.status_code, response.text)
+                
+        except Exception as e:
+            self.zatca_status = 'failed'
+            self.zatca_response_msgs = f"Network or Parsing Error:\n{str(e)}"
