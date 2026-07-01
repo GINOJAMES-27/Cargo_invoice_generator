@@ -146,62 +146,161 @@ class CargoManualInvoice(models.Model):
 
     zatca_qr_image = fields.Binary(
         string='ZATCA QR Code',
-        compute='_compute_zatca_qr_image',
+        help='ZATCA Phase 2 Enhanced QR Code',
     )
 
-    @api.depends('invoice_number', 'shipping_date', 'gross_total', 'vat_amount')
-    def _compute_zatca_qr_image(self):
+    def _generate_zatca_phase2_qr(self):
+        """Generates Phase 2 ZATCA QR Code containing 9 TLV tags."""
+        self.ensure_one()
+        # pyrefly: ignore [missing-import]
+        try:
+            import qrcode
+            import io
+            import base64
+        except ImportError:
+            qrcode = None
+
         if not qrcode:
-            for rec in self:
-                rec.zatca_qr_image = False
+            self.zatca_qr_image = False
             return
 
-        for rec in self:
-            if not rec.invoice_number or rec.invoice_number == 'New':
-                rec.zatca_qr_image = False
-                continue
-
-            seller_name = "مؤسسة سطوع الأمل للشحن الجوي"
+        try:
+            # The Seller Name in the QR MUST MATCH EXACTLY what is in the XML <cbc:RegistrationName>!
+            seller_name = "Brightness of Hope Air Cargo Est"
             vat_number = "311239685900003"
-            # Format to ISO 8601 (Odoo stores datetime as UTC natively)
-            timestamp = rec.shipping_date.isoformat() + "Z" if rec.shipping_date else ""
-            total = "%.2f" % (rec.gross_total or 0.0)
-            vat = "%.2f" % (rec.vat_amount or 0.0)
+            
+            # Fallbacks
+            timestamp = self.shipping_date.strftime('%Y-%m-%dT%H:%M:%SZ') if self.shipping_date else ""
+            total = "%.2f" % (self.gross_total or 0.0)
+            vat = "%.2f" % (self.vat_amount or 0.0)
 
-            def get_tlv(tag, value):
-                value_bytes = value.encode('utf-8')
+            def get_tlv(tag, value_bytes):
                 return bytes([tag, len(value_bytes)]) + value_bytes
 
+            csid_cert = self.env['ir.config_parameter'].sudo().get_param('cargo_manual_invoicing.zatca_api_key')
+            
+            phase2_tags = b""
+            # Check if we have Phase 2 requirements
+            if self.zatca_signed_xml and self.zatca_invoice_hash and csid_cert:
+                try:
+                    # pyrefly: ignore [missing-import]
+                    from lxml import etree
+                    root = etree.fromstring(self.zatca_signed_xml.encode('utf-8'))
+                    
+                    # Tag 3: Extract EXACT IssueDate and IssueTime from XML
+                    issue_date_elem = root.find('.//{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}IssueDate')
+                    issue_time_elem = root.find('.//{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}IssueTime')
+                    if issue_date_elem is not None and issue_time_elem is not None:
+                        # ZATCA XML contains KSA Time (UTC+3) but QR Code Tag 3 MUST be UTC (Zulu)
+                        # pyrefly: ignore [missing-import]
+                        from datetime import datetime, timedelta
+                        xml_time_str = f"{issue_date_elem.text.strip()}T{issue_time_elem.text.strip()}"
+                        try:
+                            # Parse KSA time, subtract 3 hours for UTC, and format with Z
+                            ksa_dt = datetime.strptime(xml_time_str, '%Y-%m-%dT%H:%M:%S')
+                            utc_dt = ksa_dt - timedelta(hours=3)
+                            timestamp = utc_dt.strftime('%Y-%m-%dT%H:%M:%SZ')
+                        except Exception:
+                            timestamp = xml_time_str + 'Z'
+                            
+                    # Tag 6: XML Hash MUST BE EXTRACTED FROM DigestValue
+                    digest_elem = root.find('.//ds:DigestValue', namespaces={'ds': 'http://www.w3.org/2000/09/xmldsig#'})
+                    if digest_elem is not None and digest_elem.text:
+                        hash_bytes = digest_elem.text.strip().encode('utf-8')
+                    else:
+                        hash_bytes = self.zatca_invoice_hash.strip().encode('utf-8')
+                    phase2_tags += get_tlv(6, hash_bytes)
+
+                    # Tag 7: ECDSA Signature MUST BE EXTRACTED FROM SignatureValue
+                    sig_val_elem = root.find('.//ds:SignatureValue', namespaces={'ds': 'http://www.w3.org/2000/09/xmldsig#'})
+                    if sig_val_elem is not None and sig_val_elem.text:
+                        sig_bytes = sig_val_elem.text.strip().encode('utf-8')
+                        phase2_tags += get_tlv(7, sig_bytes)
+                    else:
+                        raise ValueError("SignatureValue not found in XML")
+
+                    # Tag 8 & 9: Extract certificate from the SIGNED XML itself
+                    cert_elem = root.find('.//ds:X509Certificate', namespaces={'ds': 'http://www.w3.org/2000/09/xmldsig#'})
+                    if cert_elem is not None and cert_elem.text:
+                        cert_b64 = cert_elem.text.strip()
+                        
+                        first_decode = base64.b64decode(cert_b64)
+                        # pyrefly: ignore [missing-import]
+                        from cryptography.hazmat.backends import default_backend
+                        # pyrefly: ignore [missing-import]
+                        from cryptography.hazmat.primitives import serialization
+                        # pyrefly: ignore [missing-import]
+                        from cryptography import x509
+                        try:
+                            cert = x509.load_der_x509_certificate(first_decode, default_backend())
+                        except Exception:
+                            second_decode = base64.b64decode(first_decode)
+                            cert = x509.load_der_x509_certificate(second_decode, default_backend())
+                        
+                        pub_key_bytes = cert.public_key().public_bytes(
+                            encoding=serialization.Encoding.DER,
+                            format=serialization.PublicFormat.SubjectPublicKeyInfo
+                        )
+                        phase2_tags += get_tlv(8, pub_key_bytes)
+                        phase2_tags += get_tlv(9, cert.signature)
+                    else:
+                        raise ValueError("X509Certificate not found in signed XML")
+
+                    _logger.info("ZATCA Phase 2 QR generated successfully for %s", self.invoice_number)
+                except Exception as e:
+                    _logger.error("Phase 2 QR generation failed, falling back to Phase 1: %s", str(e))
+            else:
+                _logger.warning("Missing Phase 2 requirements (XML/Hash/CSID), falling back to Phase 1 QR")
+
+            # Assemble all tags in exact order 1-9
             tlv_data = b""
-            tlv_data += get_tlv(1, seller_name)
-            tlv_data += get_tlv(2, vat_number)
-            tlv_data += get_tlv(3, timestamp)
-            tlv_data += get_tlv(4, total)
-            tlv_data += get_tlv(5, vat)
+            tlv_data += get_tlv(1, seller_name.encode('utf-8'))
+            tlv_data += get_tlv(2, vat_number.encode('utf-8'))
+            tlv_data += get_tlv(3, timestamp.encode('utf-8'))
+            tlv_data += get_tlv(4, total.encode('utf-8'))
+            tlv_data += get_tlv(5, vat.encode('utf-8'))
+            tlv_data += phase2_tags
 
             b64_string = base64.b64encode(tlv_data).decode('utf-8')
+            _logger.info("ZATCA Phase 2 QR - Total TLV Length: %d bytes -> Base64: %d chars", len(tlv_data), len(b64_string))
+            
+            # [BR-KSA-27] Inject the Base64 QR Code into the Signed XML
+            if self.zatca_signed_xml:
+                try:
+                    # Safely inject the QR code using string replacement to avoid ANY XML canonicalization changes
+                    # that could invalidate the Digital Signature or the Invoice Hash.
+                    if ">PLACEHOLDER<" in self.zatca_signed_xml:
+                        self.zatca_signed_xml = self.zatca_signed_xml.replace(">PLACEHOLDER<", f">{b64_string}<")
+                        _logger.info("Successfully replaced QR Code PLACEHOLDER in the Signed XML")
+                    else:
+                        _logger.warning("QR PLACEHOLDER not found in Signed XML!")
+                except Exception as e:
+                    _logger.error("Failed to inject QR Code into XML: %s", str(e))
 
+            qr = qrcode.QRCode(
+                version=None,
+                error_correction=qrcode.constants.ERROR_CORRECT_M,
+                box_size=2,
+                border=1,
+            )
+            qr.add_data(b64_string)
+            qr.make(fit=True)
+
+            img = qr.make_image(fill_color="black", back_color="white")
+            buffer = io.BytesIO()
             try:
-                qr = qrcode.QRCode(
-                    version=None,
-                    error_correction=qrcode.constants.ERROR_CORRECT_M,
-                    box_size=2,
-                    border=1,
-                )
-                qr.add_data(b64_string)
-                qr.make(fit=True)
-
-                img = qr.make_image(fill_color="black", back_color="white")
-                buffer = io.BytesIO()
                 try:
                     img.save(buffer, format="PNG")  # type: ignore
                 except TypeError:
-                    # PyPNGImage does not accept 'format' keyword argument
                     img.save(buffer)
-                rec.zatca_qr_image = base64.b64encode(buffer.getvalue()).decode('utf-8')
+                self.zatca_qr_image = base64.b64encode(buffer.getvalue()).decode('utf-8')
             except Exception as e:
-                _logger.error("Failed to generate ZATCA QR code: %s", str(e))
-                rec.zatca_qr_image = False
+                _logger.warning("Could not save QR code image to database due to error: %s", str(e))
+                self.zatca_qr_image = False
+
+        except Exception as e:
+            _logger.error("Failed to generate ZATCA QR code: %s", str(e))
+            self.zatca_qr_image = False
 
     @api.depends('net_amount', 'vat_amount', 'extra_charge')
     def _compute_gross_total(self):
@@ -289,9 +388,12 @@ class CargoManualInvoice(models.Model):
                     rec.zatca_invoice_hash = invoice_hash
                     
                     # Phase D: Sign the XML
-                    signed_xml_string = self.env['zatca.signing.service'].sign_xml(invoice_root, settings)
+                    signed_xml_string = self.env['zatca.signing.service'].sign_xml(invoice_root, settings, invoice_hash)
                     if signed_xml_string:
                         rec.zatca_signed_xml = signed_xml_string
+                        
+                        # Phase E: Generate Phase 2 QR Code
+                        rec._generate_zatca_phase2_qr()
 
             except Exception as e:
                 _logger.error("Failed to generate ZATCA XML Hash during creation: %s", str(e))

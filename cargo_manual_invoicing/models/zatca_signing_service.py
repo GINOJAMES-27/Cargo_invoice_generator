@@ -27,7 +27,7 @@ class ZatcaSigningService(models.AbstractModel):
     _description = 'ZATCA XML Digital Signing Service (XMLDSig)'
 
     @api.model
-    def sign_xml(self, invoice_root, settings):
+    def sign_xml(self, invoice_root, settings, invoice_hash_b64):
         """
         Takes an lxml Element (Invoice), canonicalizes it, hashes it,
         signs it with the ECDSA private key, and injects the UBLExtensions.
@@ -44,10 +44,8 @@ class ZatcaSigningService(models.AbstractModel):
             return False
 
         try:
-            # 1. Canonicalize (C14N) the raw invoice and calculate Digest
-            canonicalized_xml = etree.tostring(invoice_root, method="c14n", exclusive=False, with_comments=False)
-            digest_hash = hashlib.sha256(canonicalized_xml).digest()
-            digest_b64 = base64.b64encode(digest_hash).decode('utf-8')
+            # 1. Use the pre-calculated, properly stripped Invoice Hash
+            digest_b64 = invoice_hash_b64
 
             # 2. Construct SignedInfo Block for XMLDSig
             # In ZATCA, SignedInfo contains references to the Digest above
@@ -92,6 +90,15 @@ class ZatcaSigningService(models.AbstractModel):
             # Remove header and footer from CSID cert
             csid_clean = csid_cert.replace("-----BEGIN CERTIFICATE-----", "").replace("-----END CERTIFICATE-----", "").replace("\n", "").strip()
 
+            # The ZATCA API sometimes returns a double-base64 encoded certificate.
+            # If the decoded string starts with 'MII' (base64 of DER 0x30 0x82), it is double-encoded.
+            try:
+                decoded_once = base64.b64decode(csid_clean).decode('utf-8')
+                if decoded_once.startswith('MII'):
+                    csid_clean = decoded_once
+            except Exception:
+                pass
+
             extensions_xml = f"""
             <ext:UBLExtensions xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:sig="urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2" xmlns:sac="urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2" xmlns:sbc="urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2">
                 <ext:UBLExtension>
@@ -121,8 +128,8 @@ class ZatcaSigningService(models.AbstractModel):
             extensions_elem = etree.fromstring(extensions_xml.strip())
             invoice_root.insert(0, extensions_elem)
             
-            # Return final signed XML string
-            final_xml_string = etree.tostring(invoice_root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
+            # Return final signed XML string without pretty printing to avoid altering the hash
+            final_xml_string = etree.tostring(invoice_root, pretty_print=False, encoding='UTF-8', xml_declaration=True)
             return final_xml_string.decode('utf-8')
             
         except Exception as e:
