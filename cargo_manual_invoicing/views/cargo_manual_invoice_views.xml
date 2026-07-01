@@ -51,6 +51,11 @@
                             type="object"
                             class="btn-success"
                             icon="fa-envelope"/>
+                    <button name="action_send_whatsapp"
+                            string="Send via WhatsApp"
+                            type="object"
+                            class="btn-success"
+                            icon="fa-whatsapp"/>
 
                     <field name="email_sent" widget="boolean_toggle" readonly="1"/>
                 </header>

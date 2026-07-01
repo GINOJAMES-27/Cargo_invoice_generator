@@ -5,6 +5,8 @@ import re
 import base64
 import logging
 import io
+import urllib.parse
+import uuid
 
 _logger = logging.getLogger(__name__)
 
@@ -51,6 +53,11 @@ class CargoManualInvoice(models.Model):
         string='Email Sent',
         default=False,
         copy=False,
+    )
+    access_token = fields.Char(
+        string='Security Token',
+        copy=False,
+        default=lambda self: str(uuid.uuid4())
     )
 
     # ── Shipper Info ───────────────────────────────────────────────────
@@ -405,4 +412,42 @@ class CargoManualInvoice(models.Model):
                 'sticky': False,
             }
         }
+
+    def action_send_whatsapp(self):
+        self.ensure_one()
+        if not self.receiver_mobile:
+            raise ValidationError("Receiver Mobile number is required to send a WhatsApp message.")
+            
+        # Clean the phone number (remove spaces, plus, dashes)
+        phone = re.sub(r'[^0-9]', '', self.receiver_mobile)
+        if not phone:
+            raise ValidationError("Invalid Receiver Mobile number.")
+
+        # Generate base URL for the public PDF link
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        if not self.access_token:
+            self.access_token = str(uuid.uuid4())
+            
+        pdf_link = f"{base_url}/cargo/invoice/pdf/{self.id}/{self.access_token}"
+        
+        # Build message
+        message = (
+            f"Hello {self.receiver_name},\n\n"
+            f"Your cargo invoice {self.invoice_number} has been generated.\n"
+            f"Gross Total: {self.gross_total} SAR\n"
+        )
+        if self.airway_bill:
+            message += f"Tracking / Airway Bill: {self.airway_bill}\n"
+            
+        message += f"\nYou can view and download your PDF invoice here: {pdf_link}"
+        
+        encoded_message = urllib.parse.quote(message)
+        whatsapp_url = f"https://wa.me/{phone}?text={encoded_message}"
+        
+        return {
+            'type': 'ir.actions.act_url',
+            'url': whatsapp_url,
+            'target': 'new',
+        }
+
 
