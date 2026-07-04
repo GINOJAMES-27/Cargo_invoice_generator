@@ -22,8 +22,10 @@ class IrHttp(models.AbstractModel):
                 admin_uid = 2
                 
             if status in ['expired', 'suspended', 'invalid'] and mode == 'block':
-                if request.env.user.id != admin_uid and request.env.user.id != 1:
+                # Only block if the user is actively logged in (not public) and not admin
+                if request.session.uid and request.session.uid != admin_uid and request.session.uid != 1:
                     # Allow access to web.login and our expired page
                     if request.httprequest.path not in ['/web/login', '/license/expired', '/web/session/logout']:
+                        request.session.logout()
                         raise exceptions.AccessDenied(_('License expired. Access blocked.'))
         return res

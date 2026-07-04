@@ -104,7 +104,7 @@ class DailyCollectionReportParser(models.AbstractModel):
             'date_to': form.get('date_to'),
             'generated_by': self.env.user.name,
             'generated_at': fields.Datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            'company_name': self.env.company.name or 'Brightness of Hope Air Cargo Est',
+            'company_name': self.env.company.name or 'Retex Cargo Express',
             'report_type': form.get('report_type'),
             
             'total_invoices': get_count(overall[0]) if overall else 0,

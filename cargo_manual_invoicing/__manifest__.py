@@ -18,6 +18,7 @@
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
         'data/cron_data.xml',
+        'views/res_config_settings_views.xml',
         'views/cargo_manual_invoice_views.xml',
         'wizard/daily_report_wizard_views.xml',
         'views/cargo_report_actions.xml',
@@ -27,6 +28,13 @@
         'report/daily_collection_report_action.xml',
         'report/daily_collection_report_template.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'cargo_manual_invoicing/static/src/css/cargo_ai_assistant.css',
+            'cargo_manual_invoicing/static/src/xml/cargo_ai_assistant.xml',
+            'cargo_manual_invoicing/static/src/js/cargo_ai_assistant.js',
+        ],
+    },
     'installable': True,
     'application': True,
     'auto_install': False,

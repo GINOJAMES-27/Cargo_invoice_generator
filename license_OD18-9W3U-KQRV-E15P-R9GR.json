@@ -1,0 +1,11 @@
+{
+    "license_key": "OD18-9W3U-KQRV-E15P-R9GR",
+    "customer": "GINO JAMES",
+    "company": "MY COMPANY ",
+    "database_uuid": "",
+    "expiry": "2026-07-03",
+    "grace_period": 0,
+    "max_activations": 1,
+    "modules": "cargo_manual_invoicing",
+    "signature": "56273f88cccd9f99d8dbe341b8e951bdc0201e721efafeb5332dd5d773618857"
+}

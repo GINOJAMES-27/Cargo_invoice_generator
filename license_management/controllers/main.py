@@ -26,14 +26,13 @@ class LicenseHomeController(Home):
             if status in ['expired', 'suspended', 'invalid'] and mode == 'block':
                 # Check if it's not the admin
                 if request.session.uid != admin_uid and request.session.uid != 1:
-                    request.session.logout()
                     return request.redirect('/license/expired')
                     
         return response
 
 class LicenseController(http.Controller):
 
-    @http.route('/license/expired', type='http', auth="public", website=True, sitemap=False)
+    @http.route('/license/expired', type='http', auth="public")
     def license_expired_page(self, **kw):
         ICP = request.env['ir.config_parameter'].sudo()
         

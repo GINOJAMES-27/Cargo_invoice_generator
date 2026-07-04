@@ -70,6 +70,10 @@ class CargoManualInvoice(models.Model):
     shipper_email = fields.Char(string='Email ID')
     shipper_address = fields.Char(string='Address', required=True)
 
+    
+    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
+    company_vat = fields.Char(related='company_id.vat', string='Company VAT')
+
     # ── Receiver Info ──────────────────────────────────────────────────
     destination = fields.Char(string='Old Destination', required=False, help="Deprecated field")
     destination_country_id = fields.Many2one('res.country', string='Destination Country', required=True)
@@ -306,9 +310,8 @@ class CargoManualInvoice(models.Model):
         body_html = """
         <div style="font-family: Arial, sans-serif; max-width: 620px; margin: 0 auto; border: 1px solid #ddd;">
             <div style="background: #000; color: #fff; padding: 20px; text-align: center;">
-                <h2 style="margin: 0; font-size: 18px;">BRIGHTNESS OF HOPE AIR CARGO EST</h2>
-                <p style="margin: 5px 0 0; font-size: 15px;">مؤسسة سطوع الأمل للشحن الجوي</p>
-                <p style="margin: 8px 0 0; font-size: 11px; color: #aaa;">CR: 1010791259 | VAT: 311239685900003</p>
+                <h2 style="margin: 0; font-size: 18px;">%s</h2>
+                <p style="margin: 8px 0 0; font-size: 11px; color: #aaa;">VAT: %s</p>
             </div>
             <div style="background: #f5f5f5; padding: 15px 20px; border-bottom: 1px solid #ddd;">
                 <h3 style="margin: 0; color: #111;">Invoice: %s</h3>
@@ -366,11 +369,13 @@ class CargoManualInvoice(models.Model):
                 </p>
             </div>
             <div style="background: #222; color: #999; padding: 12px 20px; text-align: center; font-size: 10px; line-height: 1.6;">
-                Brightness of Hope Air Cargo Est<br/>
-                Riyadh-Al Aziziyah, Abu Saad Al-Wazir Street, Saudi Arabia
+                %s<br/>
+                %s
             </div>
         </div>
         """ % (
+            self.company_id.name or 'Retex Cargo Express',
+            self.company_vat or '310248611400003',
             self.invoice_number or '',
             self.shipping_date or '',
             (self.shipment_type or '').upper(),
@@ -387,11 +392,13 @@ class CargoManualInvoice(models.Model):
             self.vat_amount,
             self.extra_charge,
             self.gross_total,
+            self.company_id.name or 'Retex Cargo Express',
+            self.company_id.street or '',
         )
-
+        
         # Send to each recipient
         mail_values = {
-            'subject': 'Cargo Invoice %s — Brightness of Hope Air Cargo' % self.invoice_number,
+            'subject': 'Cargo Invoice %s — %s' % (self.invoice_number, self.company_id.name or 'Retex Cargo Express'),
             'body_html': body_html,
             'email_from': self.env.user.email_formatted or self.env.company.email,
             'attachment_ids': [(4, attachment.id)],
@@ -402,7 +409,11 @@ class CargoManualInvoice(models.Model):
                 mail_values,
                 email_to=email_addr,
             ))
-            mail.send()
+            try:
+                mail.send()
+            except Exception as e:
+                # If mail.send() raises HTTP 429 because of an external mail API like SendGrid
+                raise ValidationError(f"Email delivery failed (possibly rate limited by the email provider): {str(e)}")
 
         # Mark as sent and log in chatter
         self.email_sent = True

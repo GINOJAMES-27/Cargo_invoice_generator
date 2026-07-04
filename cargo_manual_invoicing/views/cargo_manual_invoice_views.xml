@@ -142,8 +142,8 @@
                                         <h4 class="alert-heading">ZATCA Phase 1 Compliant QR Code</h4>
                                         <p>This QR code automatically encodes the following required fields in TLV Base64 format:</p>
                                         <ol>
-                                            <li><strong>Seller Name:</strong> Brightness of Hope Air Cargo Est</li>
-                                            <li><strong>VAT Number:</strong> 311239685900003</li>
+                                            <li><strong>Seller Name:</strong> Retex Cargo Express</li>
+                                            <li><strong>VAT Number:</strong> 310248611400003</li>
                                             <li><strong>Time Stamp:</strong> Date &amp; Time of Invoice</li>
                                             <li><strong>Invoice Total:</strong> Gross Total Amount</li>
                                             <li><strong>VAT Total:</strong> VAT Amount (15%)</li>

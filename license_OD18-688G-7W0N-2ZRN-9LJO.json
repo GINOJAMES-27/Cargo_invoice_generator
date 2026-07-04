@@ -1,0 +1,11 @@
+{
+    "license_key": "OD18-688G-7W0N-2ZRN-9LJO",
+    "customer": "GINO JAMES",
+    "company": "MY COMPANY",
+    "database_uuid": "",
+    "expiry": "2027-07-04",
+    "grace_period": 15,
+    "max_activations": 1,
+    "modules": "cargo_manual_invoicing",
+    "signature": "1310744e3ecbecdcbe9f0b738347d6d4c6ff98700d2fb1519401ae6eed739451"
+}

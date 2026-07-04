@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="cargo_manual_invoicing.CargoAIAssistant" owl="1">
+        <div class="cargo-ai-container">
+            <div class="cargo-ai-bubble" t-on-click="toggleChat">
+                <i class="fa fa-magic" t-if="!state.isOpen"/>
+                <i class="fa fa-times" t-else=""/>
+            </div>
+            
+            <div t-if="state.isOpen" class="cargo-ai-chat-window">
+                <div class="cargo-ai-header">
+                    <h4>Cargo AI Assistant</h4>
+                    <span t-if="state.isListening" class="cargo-ai-listening-indicator">Listening...</span>
+                </div>
+                
+                <div class="cargo-ai-messages">
+                    <t t-foreach="state.messages" t-as="msg" t-key="msg_index">
+                        <div t-attf-class="cargo-ai-message {{ msg.role === 'user' ? 'cargo-ai-user' : 'cargo-ai-bot' }}">
+                            <t t-esc="msg.text"/>
+                        </div>
+                    </t>
+                    <div t-if="state.isLoading" class="cargo-ai-message cargo-ai-bot cargo-ai-loading">
+                        <i class="fa fa-circle-o-notch fa-spin"></i> Thinking...
+                    </div>
+                </div>
+                
+                <div class="cargo-ai-input-area">
+                    <button class="cargo-ai-mic-btn" t-att-class="{'active': state.isListening}" t-on-click="toggleListen" title="Hold to speak or click to toggle">
+                        <i class="fa fa-microphone"></i>
+                    </button>
+                    <input type="text" t-model="state.inputText" t-on-keydown="onKeydown" placeholder="Type or speak a request..."/>
+                    <button class="cargo-ai-send-btn" t-on-click="sendMessage">
+                        <i class="fa fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
