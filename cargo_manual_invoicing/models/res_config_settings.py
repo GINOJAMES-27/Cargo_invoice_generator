@@ -8,6 +8,11 @@ class ResConfigSettings(models.TransientModel):
         config_parameter='cargo_manual_invoicing.openai_api_key', 
         help='API key for the OpenAI GPT models to power the Voice Assistant'
     )
+    groq_api_key = fields.Char(
+        string='Groq API Key', 
+        config_parameter='cargo_manual_invoicing.groq_api_key', 
+        help='API key for Groq models (extreme speed)'
+    )
 
     gemini_api_key = fields.Char(
         string='Gemini API Key', 

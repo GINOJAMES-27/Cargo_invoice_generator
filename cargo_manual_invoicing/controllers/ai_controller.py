@@ -37,6 +37,19 @@ class CargoAIController(http.Controller):
         except Exception as e:
             return {'error': f'Python openai library absolute import error: {e}'}
 
+    def _get_groq_client(self):
+        groq_key = request.env['ir.config_parameter'].sudo().get_param('cargo_manual_invoicing.groq_api_key')
+        if not groq_key:
+            return None
+        try:
+            openai = self._import_openai()
+            return openai.OpenAI(
+                api_key=groq_key,
+                base_url="https://api.groq.com/openai/v1"
+            )
+        except Exception as e:
+            return {'error': f'Python openai library absolute import error: {e}'}
+
     def _get_gemini_client(self):
         gemini_key = request.env['ir.config_parameter'].sudo().get_param('cargo_manual_invoicing.gemini_api_key')
         if not gemini_key:
@@ -52,14 +65,38 @@ class CargoAIController(http.Controller):
 
     @http.route('/cargo/ai/speech_to_text', type='json', auth='user')
     def handle_speech_to_text(self, audio_data):
+        groq_key = request.env['ir.config_parameter'].sudo().get_param('cargo_manual_invoicing.groq_api_key')
         gemini_key = request.env['ir.config_parameter'].sudo().get_param('cargo_manual_invoicing.gemini_api_key')
         openai_key = request.env['ir.config_parameter'].sudo().get_param('cargo_manual_invoicing.openai_api_key')
         
-        if not gemini_key and not openai_key:
+        if not gemini_key and not openai_key and not groq_key:
             return {'error': 'No AI API Key configured for Speech-to-Text.'}
             
         try:
-            if gemini_key:
+            if groq_key:
+                client = self._get_groq_client()
+                if isinstance(client, dict):
+                    return client # Error dict
+                    
+                # Decode base64 to binary
+                audio_binary = base64.b64decode(audio_data)
+                
+                # Save to temp file
+                with tempfile.NamedTemporaryFile(delete=False, suffix='.webm') as tmp:
+                    tmp.write(audio_binary)
+                    tmp_path = tmp.name
+                    
+                # Send to Whisper
+                with open(tmp_path, "rb") as audio_file:
+                    transcript = client.audio.transcriptions.create(
+                        model="whisper-large-v3-turbo", 
+                        file=audio_file
+                    )
+                    
+                os.remove(tmp_path)
+                return {'text': transcript.text}
+
+            elif gemini_key:
                 import urllib.request
                 import json
                 
@@ -144,17 +181,22 @@ class CargoAIController(http.Controller):
     @http.route('/cargo/ai/query', type='json', auth='user')
     def handle_ai_query(self, query):
         try:
-            is_gemini = False
-            client = self._get_gemini_client()
-            if isinstance(client, dict):
-                return client
-                
+            ai_provider = None
+            client = self._get_groq_client()
+            if isinstance(client, dict): return client
+            
             if client:
-                is_gemini = True
+                ai_provider = 'groq'
             else:
-                client = self._get_openai_client()
-                if isinstance(client, dict):
-                    return {'error': 'No Gemini or OpenAI API Key configured in settings.'}
+                client = self._get_gemini_client()
+                if isinstance(client, dict): return client
+                if client:
+                    ai_provider = 'gemini'
+                else:
+                    client = self._get_openai_client()
+                    if isinstance(client, dict):
+                        return {'error': 'No Groq, Gemini, or OpenAI API Key configured in settings.'}
+                    ai_provider = 'openai'
 
             system_prompt = """
             You are an AI assistant for a Cargo & Courier agency running on Odoo.
@@ -247,19 +289,27 @@ class CargoAIController(http.Controller):
             ]
 
             openai = self._import_openai()
+            
+            if ai_provider == 'groq':
+                model_name = "llama-3.3-70b-versatile"
+            elif ai_provider == 'gemini':
+                model_name = "gemini-2.5-flash"
+            else:
+                model_name = "gpt-4o-mini"
+                
             try:
                 response = client.chat.completions.create(
-                    model="gemini-2.5-flash" if is_gemini else "gpt-4o-mini",
+                    model=model_name,
                     messages=[
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": query}
                     ],
                     tools=tools,
-                    tool_choice="auto" if not is_gemini else "auto", # Gemini supports 'auto'
+                    tool_choice="auto",
                     temperature=0.0
                 )
             except openai.RateLimitError:
-                if is_gemini:
+                if ai_provider == 'gemini':
                     response = client.chat.completions.create(
                         model="gemini-2.5-pro",
                         messages=[

@@ -14,6 +14,9 @@
                         <setting id="gemini_api_key_setting" help="Provide your Gemini API Key for text generation">
                             <field name="gemini_api_key" password="True"/>
                         </setting>
+                        <setting id="groq_api_key_setting" help="Provide your Groq API Key for ultra-fast AI processing">
+                            <field name="groq_api_key" password="True"/>
+                        </setting>
                     </block>
                 </app>
             </xpath>
