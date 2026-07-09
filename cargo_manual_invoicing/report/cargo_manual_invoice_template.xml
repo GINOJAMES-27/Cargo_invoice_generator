@@ -203,24 +203,20 @@
 
             <!-- ═══ HEADER ═══ -->
             <div class="row ci-header">
-                <div class="col-5 en-block">
-                    <div class="company-name">Retex Cargo Express</div>
+                <div class="col-6 en-block">
+                    <div class="company-name">Barakat Sura Trading Est</div>
                     <span class="detail-label">VAT NO:</span> 310248611400003<br/>
-                    <span class="detail-label">MOBILE:</span> 0558736359<br/>
-                    Riyadh-Al Aziziyah-<br/>
-                    Abu Saad Al-Wazir Street-Near Saptco Bus Stand<br/>
-                    Saudi Arabia Riyadh
+                    <span class="detail-label">PHONE NO:</span> 0570756687<br/>
+                    Al Aziziya - Abu Saad Al Wazir Street<br/>
+                    Near Saptico Bus Station
                 </div>
 
-                <div class="col-2"></div>
-
-                <div class="col-5 ar-block">
-                    <div class="company-name-ar">مؤسسة قافلة السرعة للشحن</div>
-                    الرقم الضريبي : ٣١٠٢٤٨٦١١٤٠٠٠٠٣<br/>
-                    جوال : ٠٥٥٨٧٣٦٣٥٩<br/>
-                    الرياض - العزيزية<br/>
-                    شارع أبو سعد الوزير - بجوار موقف سابتكو<br/>
-                    المملكة العربية السعودية - الرياض
+                <div class="col-6 ar-block">
+                    <div class="company-name-ar">مؤسسة بركات السرعه للتجارة</div>
+                    رقم الضريبي : ٣١٠٢٤٨٦١١٤٠٠٠٠٣<br/>
+                    هاتف : ٠٥٧٠٧٥٦٦٨٧<br/>
+                    العزيزية - شارع أبو سعد الوزير - بجوار النقل الجماعي<br/>
+                    الرياض- المملكة العربية السعودية
                 </div>
             </div>
 

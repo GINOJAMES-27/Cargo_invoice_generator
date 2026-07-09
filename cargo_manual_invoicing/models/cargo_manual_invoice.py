@@ -156,7 +156,7 @@ class CargoManualInvoice(models.Model):
                 rec.zatca_qr_image = False
                 continue
 
-            seller_name = "Retex Cargo Express"
+            seller_name = "Barakat Sura Trading Est"
             vat_number = "310248611400003"
             # Format to ISO 8601 (Odoo stores datetime as UTC natively)
             timestamp = rec.shipping_date.isoformat() + "Z" if rec.shipping_date else ""
@@ -462,4 +462,4 @@ class CargoManualInvoice(models.Model):
             'target': 'new',
         }
 
-
+
