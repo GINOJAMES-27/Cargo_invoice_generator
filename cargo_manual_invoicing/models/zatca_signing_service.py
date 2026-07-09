@@ -1,6 +1,7 @@
 import base64
 import hashlib
 import logging
+import datetime
 from odoo import models, api, _
 # pyrefly: ignore [missing-import]
 from odoo.exceptions import UserError
@@ -16,11 +17,14 @@ try:
     from cryptography.hazmat.primitives.asymmetric import ec
     # pyrefly: ignore [missing-import]
     from cryptography.hazmat.primitives import serialization
+    # pyrefly: ignore [missing-import]
+    from cryptography import x509
 except ImportError:
     etree = None
     hashes = None
     ec = None
     serialization = None
+    x509 = None
 
 class ZatcaSigningService(models.AbstractModel):
     _name = 'zatca.signing.service'
@@ -30,10 +34,10 @@ class ZatcaSigningService(models.AbstractModel):
     def sign_xml(self, invoice_root, settings, invoice_hash_b64):
         """
         Takes an lxml Element (Invoice), canonicalizes it, hashes it,
-        signs it with the ECDSA private key, and injects the UBLExtensions.
-        Returns the signed XML string.
+        signs it with the ECDSA private key, constructs XAdES properties,
+        and injects the UBLExtensions.
         """
-        if not etree or not ec:
+        if not etree or not ec or not x509:
             raise UserError(_("Python 'lxml' and 'cryptography' libraries must be installed."))
             
         private_key_pem = self.env['ir.config_parameter'].sudo().get_param('cargo_manual_invoicing.zatca_private_key')
@@ -44,16 +48,56 @@ class ZatcaSigningService(models.AbstractModel):
             return False
 
         try:
-            # 1. Use the pre-calculated, properly stripped Invoice Hash
-            digest_b64 = invoice_hash_b64
+            # 1. Prepare Certificate and parse properties
+            csid_clean = csid_cert.replace("-----BEGIN CERTIFICATE-----", "").replace("-----END CERTIFICATE-----", "").replace("\n", "").strip()
+            # Handle double base64 if present
+            try:
+                decoded_once = base64.b64decode(csid_clean).decode('utf-8')
+                if decoded_once.startswith('MII'):
+                    csid_clean = decoded_once
+            except Exception:
+                pass
+                
+            der_cert = base64.b64decode(csid_clean)
+            cert_obj = x509.load_der_x509_certificate(der_cert)
+            
+            issuer_name = cert_obj.issuer.rfc4514_string()
+            serial_number = cert_obj.serial_number
+            cert_hash_b64 = base64.b64encode(hashlib.sha256(der_cert).digest()).decode('utf-8')
+            signing_time = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
-            # 2. Construct SignedInfo Block for XMLDSig
-            # In ZATCA, SignedInfo contains references to the Digest above
+            # 2. Construct XAdES SignedProperties using pure lxml to guarantee C14N exactness
+            xades_ns = "http://uri.etsi.org/01903/v1.3.2#"
+            ds_ns = "http://www.w3.org/2000/09/xmldsig#"
+            
+            NSMAP = {'xades': xades_ns, 'ds': ds_ns}
+            xades_props = etree.Element("{%s}SignedProperties" % xades_ns, Id="xadesSignedProperties", nsmap=NSMAP)
+            
+            signed_sig_props = etree.SubElement(xades_props, "{%s}SignedSignatureProperties" % xades_ns)
+            etree.SubElement(signed_sig_props, "{%s}SigningTime" % xades_ns).text = signing_time
+            
+            signing_cert = etree.SubElement(signed_sig_props, "{%s}SigningCertificate" % xades_ns)
+            cert = etree.SubElement(signing_cert, "{%s}Cert" % xades_ns)
+            
+            cert_digest = etree.SubElement(cert, "{%s}CertDigest" % xades_ns)
+            digest_method = etree.SubElement(cert_digest, "{%s}DigestMethod" % ds_ns, Algorithm="http://www.w3.org/2001/04/xmlenc#sha256")
+            etree.SubElement(cert_digest, "{%s}DigestValue" % ds_ns).text = cert_hash_b64
+            
+            issuer_serial = etree.SubElement(cert, "{%s}IssuerSerial" % xades_ns)
+            etree.SubElement(issuer_serial, "{%s}X509IssuerName" % ds_ns).text = issuer_name
+            etree.SubElement(issuer_serial, "{%s}X509SerialNumber" % ds_ns).text = str(serial_number)
+            
+            # Canonicalize just the SignedProperties
+            xades_c14n = etree.tostring(xades_props, method="c14n", exclusive=False, with_comments=False)
+            xades_hash_b64 = base64.b64encode(hashlib.sha256(xades_c14n).digest()).decode('utf-8')
+            xades_props_xml = etree.tostring(xades_props, encoding='unicode')
+
+            # 3. Construct SignedInfo Block for XMLDSig
             signed_info_xml = f"""
             <ds:SignedInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
                 <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2006/12/xml-c14n11"/>
                 <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256"/>
-                <ds:Reference URI="">
+                <ds:Reference Id="invoiceSignedData" URI="">
                     <ds:Transforms>
                         <ds:Transform Algorithm="http://www.w3.org/TR/1999/REC-xpath-19991116">
                             <ds:XPath>not(//ancestor-or-self::ext:UBLExtensions)</ds:XPath>
@@ -64,41 +108,29 @@ class ZatcaSigningService(models.AbstractModel):
                         <ds:Transform Algorithm="http://www.w3.org/2006/12/xml-c14n11"/>
                     </ds:Transforms>
                     <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
-                    <ds:DigestValue>{digest_b64}</ds:DigestValue>
+                    <ds:DigestValue>{invoice_hash_b64}</ds:DigestValue>
+                </ds:Reference>
+                <ds:Reference Type="http://www.w3.org/2000/09/xmldsig#SignatureProperties" URI="#xadesSignedProperties">
+                    <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+                    <ds:DigestValue>{xades_hash_b64}</ds:DigestValue>
                 </ds:Reference>
             </ds:SignedInfo>
             """
             signed_info_elem = etree.fromstring(signed_info_xml.strip())
-            
-            # Canonicalize the SignedInfo block to sign it exactly as it appears
             canonicalized_signed_info = etree.tostring(signed_info_elem, method="c14n", exclusive=False, with_comments=False)
 
-            # 3. Load Private Key and Sign the SignedInfo Block
+            # 4. Load Private Key and Sign the SignedInfo Block
             private_key = serialization.load_pem_private_key(
                 private_key_pem.encode('utf-8'),
                 password=None
             )
-            
-            # Sign using ECDSA SHA-256
             signature_bytes = private_key.sign(
                 canonicalized_signed_info,
                 ec.ECDSA(hashes.SHA256())
             )
             signature_b64 = base64.b64encode(signature_bytes).decode('utf-8')
 
-            # 4. Construct the UBLExtensions Block
-            # Remove header and footer from CSID cert
-            csid_clean = csid_cert.replace("-----BEGIN CERTIFICATE-----", "").replace("-----END CERTIFICATE-----", "").replace("\n", "").strip()
-
-            # The ZATCA API sometimes returns a double-base64 encoded certificate.
-            # If the decoded string starts with 'MII' (base64 of DER 0x30 0x82), it is double-encoded.
-            try:
-                decoded_once = base64.b64decode(csid_clean).decode('utf-8')
-                if decoded_once.startswith('MII'):
-                    csid_clean = decoded_once
-            except Exception:
-                pass
-
+            # 5. Construct full ds:Signature with ds:Object
             extensions_xml = f"""
             <ext:UBLExtensions xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:sig="urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2" xmlns:sac="urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2" xmlns:sbc="urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2">
                 <ext:UBLExtension>
@@ -116,6 +148,11 @@ class ZatcaSigningService(models.AbstractModel):
                                             <ds:X509Certificate>{csid_clean}</ds:X509Certificate>
                                         </ds:X509Data>
                                     </ds:KeyInfo>
+                                    <ds:Object>
+                                        <xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Target="#signature">
+                                            {xades_props_xml.strip()}
+                                        </xades:QualifyingProperties>
+                                    </ds:Object>
                                 </ds:Signature>
                             </sac:SignatureInformation>
                         </sig:UBLDocumentSignatures>
@@ -124,15 +161,13 @@ class ZatcaSigningService(models.AbstractModel):
             </ext:UBLExtensions>
             """
             
-            # 5. Inject UBLExtensions into the root XML
+            # 6. Inject UBLExtensions into the root XML
             extensions_elem = etree.fromstring(extensions_xml.strip())
             invoice_root.insert(0, extensions_elem)
             
-            # Return final signed XML string without pretty printing to avoid altering the hash
             final_xml_string = etree.tostring(invoice_root, pretty_print=False, encoding='UTF-8', xml_declaration=True)
             return final_xml_string.decode('utf-8')
             
         except Exception as e:
             _logger.error("ZATCA Signing Failed: %s", str(e))
             return False
-#Zatcha Integration Till Phase D completed

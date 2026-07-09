@@ -108,12 +108,12 @@ class ZatcaXmlBuilder(models.AbstractModel):
         etree.SubElement(country, "{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}IdentificationCode").text = "SA"
         
         party_tax_scheme = etree.SubElement(party, "{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}PartyTaxScheme")
-        etree.SubElement(party_tax_scheme, "{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}CompanyID").text = settings.zatca_vat_number or "311239685900003"
+        etree.SubElement(party_tax_scheme, "{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}CompanyID").text = settings.get_param('cargo_manual_invoicing.zatca_vat_number') or "311239685900003"
         tax_scheme = etree.SubElement(party_tax_scheme, "{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}TaxScheme")
         etree.SubElement(tax_scheme, "{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}ID").text = "VAT"
 
         party_legal_entity = etree.SubElement(party, "{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}PartyLegalEntity")
-        etree.SubElement(party_legal_entity, "{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}RegistrationName").text = settings.zatca_company_name or "Company Name"
+        etree.SubElement(party_legal_entity, "{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}RegistrationName").text = settings.get_param('cargo_manual_invoicing.zatca_company_name') or "Company Name"
 
         # Accounting Customer Party
         customer_party = etree.SubElement(invoice_root, "{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}AccountingCustomerParty")

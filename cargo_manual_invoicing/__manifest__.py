@@ -17,7 +17,6 @@
     'data': [
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
-        'data/cron_data.xml',
         'views/res_config_settings_views.xml',
         'views/cargo_manual_invoice_views.xml',
         'wizard/daily_report_wizard_views.xml',
