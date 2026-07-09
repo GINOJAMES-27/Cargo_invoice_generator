@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_license_management_admin,license.management.admin,model_license_management,group_license_admin,1,1,1,1
+access_license_management_user,license.management.user,model_license_management,base.group_user,1,0,0,0
+access_license_log_admin,license.log.admin,model_license_log,group_license_admin,1,1,1,1
+access_license_log_user,license.log.user,model_license_log,base.group_user,1,0,0,0
+access_license_activate_admin,license.activate.wizard.admin,model_license_activate_wizard,group_license_admin,1,1,1,1
+access_license_renew_admin,license.renew.wizard.admin,model_license_renew_wizard,group_license_admin,1,1,1,1

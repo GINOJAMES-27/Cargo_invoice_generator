@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="license_management.LicenseBanner" owl="1">
+        <div>
+            <div t-if="state.show and !state.dismissed" 
+                 t-attf-class="license-banner bg-{{ state.color }}">
+                <div class="license-banner-content">
+                    <i class="fa fa-exclamation-triangle me-2"></i>
+                    <span t-out="state.message"></span>
+                    <button class="btn btn-sm btn-light ms-3" t-on-click="openSettings">Renew Now</button>
+                </div>
+                <button class="btn btn-sm btn-link text-white text-decoration-none" t-on-click="onDismiss">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </t>
+</templates>

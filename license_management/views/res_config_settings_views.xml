@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_license" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.license</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="License Management" string="License Management" name="license_management">
+                    <h2>License Status</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Current Status</span>
+                                <div class="text-muted">
+                                    <field name="license_status" widget="badge" 
+                                           decoration-success="license_status == 'active'"
+                                           decoration-warning="license_status in ['expiring', 'grace']"
+                                           decoration-danger="license_status in ['expired', 'suspended', 'invalid']"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">License Key</span>
+                                <div class="text-muted">
+                                    <field name="license_key"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Expiry Date</span>
+                                <div class="text-muted">
+                                    <field name="license_expiry"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Database UUID</span>
+                                <div class="text-muted">
+                                    <field name="database_uuid"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2>Configuration</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Grace Period (Days)</span>
+                                <div class="text-muted">
+                                    <field name="license_grace_period"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Expiration Mode</span>
+                                <div class="text-muted">
+                                    <field name="license_mode"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Admin User</span>
+                                <div class="text-muted">
+                                    <field name="license_admin_uid"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2>Vendor Information</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Vendor Name</span>
+                                <div class="text-muted">
+                                    <field name="license_vendor_name"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Vendor Email</span>
+                                <div class="text-muted">
+                                    <field name="license_vendor_email"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2>Actions</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12">
+                            <button string="Activate License" type="object" name="action_activate_license" class="btn-primary"/>
+                            <button string="Renew License" type="object" name="action_renew_license" class="btn-secondary"/>
+                            <button string="Verify License" type="object" name="action_verify_license" class="btn-secondary"/>
+                        </div>
+                    </div>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

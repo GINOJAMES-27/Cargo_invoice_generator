@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top Menu -->
+    <menuitem id="menu_license_management_root"
+              name="License Management"
+              web_icon="license_management,static/description/icon.png"
+              sequence="100"/>
+              
+    <!-- Submenus -->
+    <menuitem id="menu_license_active"
+              name="Active Licenses"
+              parent="menu_license_management_root"
+              action="action_license_management"
+              sequence="10"/>
+              
+    <menuitem id="menu_license_logs"
+              name="License Logs"
+              parent="menu_license_management_root"
+              action="action_license_log"
+              sequence="20"/>
+              
+    <menuitem id="menu_license_activate"
+              name="Activate License"
+              parent="menu_license_management_root"
+              action="action_license_activate_wizard"
+              sequence="30"/>
+              
+</odoo>

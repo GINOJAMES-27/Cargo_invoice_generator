@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequence for license reference -->
+        <record id="seq_license_management" model="ir.sequence">
+            <field name="name">License Reference</field>
+            <field name="code">license.management</field>
+            <field name="prefix">LIC-%(year)s-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

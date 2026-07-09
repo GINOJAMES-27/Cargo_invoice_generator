@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_license_management_form" model="ir.ui.view">
+        <field name="name">license.management.form</field>
+        <field name="model">license.management</field>
+        <field name="arch" type="xml">
+            <form string="License">
+                <header>
+                    <button name="action_verify" string="Verify Status" type="object" class="btn-primary"/>
+                    <button name="action_suspend" string="Suspend" type="object" invisible="license_status in ['draft', 'expired', 'suspended', 'invalid']"/>
+                    <field name="license_status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Customer Details">
+                            <field name="customer_name"/>
+                            <field name="company_name"/>
+                            <field name="customer_email"/>
+                            <field name="customer_phone"/>
+                        </group>
+                        <group string="License Details">
+                            <field name="license_key"/>
+                            <field name="expiry_date"/>
+                            <field name="grace_period_days"/>
+                            <field name="days_remaining"/>
+                            <field name="is_online_validation"/>
+                            <field name="license_mode"/>
+                        </group>
+                        <group string="System Info">
+                            <field name="database_uuid"/>
+                            <field name="database_name"/>
+                            <field name="activation_count"/>
+                            <field name="max_activations"/>
+                            <field name="admin_user_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Licensed Modules">
+                            <field name="licensed_modules"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                        <page string="Advanced (Readonly)" groups="license_management.group_license_admin">
+                            <group>
+                                <field name="license_payload"/>
+                                <field name="license_checksum"/>
+                                <field name="last_verification_date"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_license_management_tree" model="ir.ui.view">
+        <field name="name">license.management.tree</field>
+        <field name="model">license.management</field>
+        <field name="arch" type="xml">
+            <list string="Licenses">
+                <field name="name"/>
+                <field name="customer_name"/>
+                <field name="license_key"/>
+                <field name="expiry_date"/>
+                <field name="days_remaining"/>
+                <field name="license_status" widget="badge" 
+                       decoration-success="license_status == 'active'"
+                       decoration-warning="license_status in ['expiring', 'grace']"
+                       decoration-danger="license_status in ['expired', 'suspended', 'invalid']"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_license_management" model="ir.actions.act_window">
+        <field name="name">Active Licenses</field>
+        <field name="res_model">license.management</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- License Logs -->
+    <record id="view_license_log_tree" model="ir.ui.view">
+        <field name="name">license.log.tree</field>
+        <field name="model">license.log</field>
+        <field name="arch" type="xml">
+            <list string="License Logs" create="false" edit="false" delete="false">
+                <field name="timestamp"/>
+                <field name="event_type"/>
+                <field name="user_id"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_license_log" model="ir.actions.act_window">
+        <field name="name">License Logs</field>
+        <field name="res_model">license.log</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

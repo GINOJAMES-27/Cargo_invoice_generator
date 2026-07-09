@@ -1,0 +1,39 @@
+.license-banner {
+    position: fixed;
+    top: 46px; /* Below standard Odoo navbar */
+    left: 0;
+    width: 100%;
+    z-index: 1050;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.license-banner.bg-warning {
+    background-color: #ff9800 !important; /* Material Orange */
+    color: white !important;
+}
+
+.license-banner.bg-danger {
+    background-color: #f44336 !important; /* Material Red */
+}
+
+/* Make it blink if it's very urgent (grace period) */
+.license-banner.bg-danger.blink {
+    animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+    50% { opacity: 0.8; }
+}
+
+.license-banner-content {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: center;
+}

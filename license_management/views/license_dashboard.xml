@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_license_dashboard_form" model="ir.ui.view">
+        <field name="name">license.management.dashboard.form</field>
+        <field name="model">license.management</field>
+        <field name="arch" type="xml">
+            <form string="License Dashboard" create="false" edit="false">
+                <header>
+                    <button name="action_verify" string="Verify Status" type="object" class="btn-primary"/>
+                    <button name="action_suspend" string="Suspend" type="object" invisible="license_status in ['draft', 'expired', 'suspended', 'invalid']"/>
+                </header>
+                <sheet>
+                    <div class="o_dashboard_license_widget" style="padding: 20px; text-align: center;">
+                        <h1 style="font-size: 24px; margin-bottom: 20px;">License Overview</h1>
+                        
+                        <div class="row" style="margin-top: 30px;">
+                            <div class="col-md-4">
+                                <div class="card" style="padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px;">
+                                    <h3 style="color: #666; font-size: 16px;">Current Status</h3>
+                                    <field name="license_status" widget="badge" 
+                                           decoration-success="license_status == 'active'"
+                                           decoration-warning="license_status in ['expiring', 'grace']"
+                                           decoration-danger="license_status in ['expired', 'suspended', 'invalid']"
+                                           style="font-size: 18px; padding: 10px; display: inline-block; margin-top: 10px;"/>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card" style="padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px;">
+                                    <h3 style="color: #666; font-size: 16px;">Days Remaining</h3>
+                                    <h1 style="font-size: 36px; margin: 10px 0;">
+                                        <field name="days_remaining"/>
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card" style="padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px;">
+                                    <h3 style="color: #666; font-size: 16px;">Expiry Date</h3>
+                                    <h2 style="font-size: 24px; margin: 10px 0; color: #333;">
+                                        <field name="expiry_date"/>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4" style="text-align: left; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                            <h4>License Details</h4>
+                            <p><strong>License Key:</strong> <field name="license_key"/></p>
+                            <p><strong>Database UUID:</strong> <field name="database_uuid"/></p>
+                            <p><strong>Company:</strong> <field name="company_name"/></p>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_license_dashboard" model="ir.actions.act_window">
+        <field name="name">License Dashboard</field>
+        <field name="res_model">license.management</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_license_dashboard_form"/>
+    </record>
+</odoo>
