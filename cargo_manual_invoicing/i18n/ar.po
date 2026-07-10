@@ -1,0 +1,1398 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* cargo_manual_invoicing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20260622\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-10 06:50+0000\n"
+"PO-Revision-Date: 2026-07-10 06:50+0000\n"
+"Last-Translator: \n"
+"Language-Team: Arabic\nLanguage: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "% Share"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid ""
+"&amp;nbsp;|&amp;nbsp; \n"
+"                                Generated:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid ""
+"&amp;nbsp;|&amp;nbsp; \n"
+"                                User:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid ""
+"<br/>\n"
+"                        Barakat Sura Trading Est | Riyadh, Saudi Arabia"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid ""
+"<span class=\"ci-fin-label\">Extra Charge</span>\n"
+"                        <span class=\"ci-fin-label-ar\" style=\"float:right;\">رسوم إضافية</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid ""
+"<span class=\"ci-fin-label\">GROSS TOTAL</span>\n"
+"                        <span class=\"ci-fin-label-ar\" style=\"float:right;\">المجموع الكلي</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid ""
+"<span class=\"ci-fin-label\">Net Amount</span>\n"
+"                        <span class=\"ci-fin-label-ar\" style=\"float:right;\">المجموع الفرعي</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid ""
+"<span class=\"ci-fin-label\">VAT 15%</span>\n"
+"                        <span class=\"ci-fin-label-ar\" style=\"float:right;\">ضريبة</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid ""
+"<span class=\"detail-label\">VAT NO:</span> 310248611400003<br/>\n"
+"                    <span class=\"detail-label\">PHONE NO:</span> 0570756687<br/>\n"
+"                    Al Aziziya - Abu Saad Al Wazir Street<br/>\n"
+"                    Near Saptco Bus Station"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "<span class=\"meta-label\">Invoice No</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "<span class=\"meta-label\">Shipment Type</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "<span class=\"meta-label\">Shipping Date</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "<span class=\"meta-label\">Status</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "<span class=\"text-card\">Card</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "<span class=\"text-cash\">Cash</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "<span class=\"text-company\">Company</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "<span style=\"font-size: 24px;\">✈️</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid ""
+"<strong style=\"font-size: 11px; text-decoration: underline;\">شروط وتعليمات هامة</strong><br/>\n"
+"                ١) يجب أن تكون المنقولات سليمة وخالية من المواد الخطرة والمحظور تداولها نظاميا كما يجب أن تكون محكمة الإغلاق و معلفة بطريقة جيدة تسمح بالنقل والمناولة ويتحمل المرسل وحده المسؤلية خلاف ذلك<br/>\n"
+"                ٢) يلتزم المكتب فقط بنقل المنقولات المسموح بها قانونيا و الرسائل البريدية<br/>\n"
+"                ٣) يقوم المرسل بملئ كافية البيانات المدونة والتأكد من صحة العناوين والمكتب غير مسؤل عن تأخر أو تلف أو فقد الناتج من مخالفة المرسل لذلك<br/>\n"
+"                ٤) المكتب مفوض من قبل المرسل في فتح المنقولات أو الاشياء المرسلة بعد استلامها في حالة طلب السلطات المختصة ذلك<br/>\n"
+"                <br/>\n"
+"                <strong style=\"text-decoration: underline;\">الالتزامات و المسؤليات :</strong><br/>\n"
+"                يقوم المكتب بتعويض المرسل مالك المنقولات في حالة الفقد أو التلف الكلي الناتج عن خطأ الشركة الناقلة بشروط وهي :<br/>\n"
+"                أ) أن يقوم المرسل بدفع التأمين الخاص بالشحنة<br/>\n"
+"                ب) أن تكون المنقولات معلفة بطريقة نموذجية وجيدة<br/>\n"
+"                ت) ان لا يستلم المستلم المنقولات وابلاغ المكتب بهذا في حالة وجود أي تلف والمكتب يقوم بالاجراءات اللازمة يعفي المكتب من المسؤلية الكاملة<br/>\n"
+"                في الحالات الاتية :<br/>\n"
+"                ١) استلام المرسل الية المنقولات المرسلة والتوقيع على ذلك بالاستلام<br/>\n"
+"                ٢) تأخير المستلم في استلام المنقولات بمدة تزيد عن اسبوع واحد من تاريخ الوصول<br/>\n"
+"                ٣) الفقد أو التلف عن طريق خطأ المرسل<br/>\n"
+"                ٤) الفقد أو التأخير أو التلف الخارج عن ادارة المكتب كالقوة القاهرة<br/>\n"
+"                ٥) يعفي المكتب من رسوم الجمركية أو الحجز المنقولات الدولية المرسلة الى جميع الدول على حسب اختلاف نظام الجمارك في كل دولة<br/>\n"
+"                <br/>\n"
+"                <strong style=\"text-decoration: underline;\">المواد الممنوع نقلها:</strong><br/>\n"
+"                ١- المخدرات والمسكرات  ٢- المفرقعات والأسلحة النارية بجميع انواعها  ٣- المطبوعات والمواد الممنوعة التي تتنافي مع التقاليد والأخلاق والآداب العامة والنظم والقوانين السعودية<br/>\n"
+"                ٤- المواد الثمينة كالتحف والمجوهرات والبطاقات مسبقة الدفع والبطاريات السائلة  ٥- اسطوانات الغاز  ٦- السوائل كالماء والعسل وجميع الاعراض التي تحتوي على سوائل<br/>\n"
+"                <br/>\n"
+"                عند استلام العميل شحنته والتوقيع على استلام تنتهي مهمة المكتب وسلطاته من ناحية شحنة العميل"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "<strong>Invoice Total:</strong> Gross Total Amount"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "<strong>Seller Name:</strong> Barakat Sura Trading Est"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "<strong>Time Stamp:</strong> Date &amp; Time of Invoice"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "<strong>VAT Number:</strong> 310248611400003"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "<strong>VAT Total:</strong> VAT Amount (15%)"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__receiver_address
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__shipper_address
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Address"
+msgstr "العنوان"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Address:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__airway_bill
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Airway Bill"
+msgstr "بوليصة الشحن"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Airway Bill:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_daily_report_wizard__paymode_filter__all
+msgid "All Payment Modes"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Any special instructions"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__delivery_partner__aramex
+msgid "Aramex"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Auto-generated on save"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Barakat Sura Trading Est"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__delivery_partner__by_air
+msgid "By Air"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__delivery_partner__by_road
+msgid "By Road"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "By Shipment Type"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.view_cargo_daily_report_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__paymode__card
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Card"
+msgstr "بطاقة"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_daily_report_wizard__paymode_filter__card
+msgid "Card Only"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Cargo & Financials"
+msgstr "الشحن والمالية"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Cargo Details — معلومات الشحن"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.actions.report,name:cargo_manual_invoicing.action_report_cargo_invoice
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Cargo Invoice"
+msgstr "فاتورة الشحن"
+
+#. module: cargo_manual_invoicing
+#: model:ir.actions.act_window,name:cargo_manual_invoicing.action_cargo_manual_invoice
+#: model:ir.ui.menu,name:cargo_manual_invoicing.menu_cargo_manual_invoice
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_list
+msgid "Cargo Invoices"
+msgstr "فواتير الشحن"
+
+#. module: cargo_manual_invoicing
+#: model:ir.ui.menu,name:cargo_manual_invoicing.menu_cargo_invoicing_root
+msgid "Cargo Invoicing"
+msgstr "فواتير الشحن"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model,name:cargo_manual_invoicing.model_cargo_manual_invoice
+msgid "Cargo Manual Invoice"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__carrier
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Carrier"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Carrier:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__paymode__cash
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Cash"
+msgstr "نقداً"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_daily_report_wizard__paymode_filter__cash
+msgid "Cash Only"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.actions.act_window,help:cargo_manual_invoicing.action_cargo_manual_invoice
+msgid "Click the <b>New</b> button to start entering shipment details."
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Collection by Payment Mode"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__receiver_company
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__shipper_company
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__paymode__company
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Company"
+msgstr "الشركة"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_daily_report_wizard__paymode_filter__company
+msgid "Company Only"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Company name"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Company:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Count"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Country"
+msgstr "الدولة"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.actions.act_window,help:cargo_manual_invoicing.action_cargo_manual_invoice
+msgid "Create your first Cargo Invoice!"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_daily_report_wizard__create_uid
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_daily_report_wizard__create_date
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Customer VAT Number"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "DAILY COLLECTION REPORT | تقرير التحصيل اليومي"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__delivery_partner__dhl
+msgid "DHL"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.actions.act_window,name:cargo_manual_invoicing.action_cargo_daily_report_wizard
+#: model:ir.actions.report,name:cargo_manual_invoicing.action_report_daily_collection
+#: model:ir.ui.menu,name:cargo_manual_invoicing.menu_daily_collection_report
+#: model:ir.ui.menu,name:cargo_manual_invoicing.menu_daily_collection_report_main
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.view_cargo_daily_report_wizard_form
+msgid "Daily Collection Report"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model,name:cargo_manual_invoicing.model_report_cargo_manual_invoicing_report_daily_collection_document
+msgid "Daily Collection Report Parser"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model,name:cargo_manual_invoicing.model_cargo_daily_report_wizard
+msgid "Daily Collection Report Wizard"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_daily_report_wizard__date_from
+msgid "Date From"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.view_cargo_daily_report_wizard_form
+msgid "Date Range"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_daily_report_wizard__date_to
+msgid "Date To"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Date/Time"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Date:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+msgid "Day"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__status__delivered
+msgid "Delivered"
+msgstr "تم التوصيل"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__delivery_partner
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Delivery Partner"
+msgstr "شريك التوصيل"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,help:cargo_manual_invoicing.field_cargo_manual_invoice__destination
+msgid "Deprecated field"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Describe the cargo contents"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Dest."
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__destination_country_id
+msgid "Destination Country"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Destination:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Detailed Invoice Breakdown"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_daily_report_wizard__report_type__detailed
+msgid "Detailed Report"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_daily_report_wizard__display_name
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__shipment_type__domestic
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+msgid "Domestic"
+msgstr "محلي"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__receiver_email
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__shipper_email
+msgid "Email ID"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__email_sent
+msgid "Email Sent"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Email:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_list
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+msgid "Emailed"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__extra_charge
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Extra Charge"
+msgstr "رسوم إضافية"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__delivery_partner__fedex
+msgid "FedEx"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_daily_report_wizard__agent_filter
+msgid "Filter by Agent"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.view_cargo_daily_report_wizard_form
+msgid "Filters"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,help:cargo_manual_invoicing.field_cargo_manual_invoice__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Full address"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "GRAND TOTAL"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "GRAND TOTAL (SAR)"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.view_cargo_daily_report_wizard_form
+msgid "Generate PDF"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__gross_total
+msgid "Gross Total"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Gross Total (SAR)"
+msgstr "الإجمالي (ريال)"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+msgid "Group By"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_daily_report_wizard__id
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__id
+msgid "ID"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,help:cargo_manual_invoicing.field_cargo_manual_invoice__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,help:cargo_manual_invoicing.field_cargo_manual_invoice__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,help:cargo_manual_invoicing.field_cargo_manual_invoice__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__status__in_transit
+msgid "In Transit"
+msgstr "في الطريق"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__shipment_type__international
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+msgid "International"
+msgstr "دولي"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_list
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Invoice #"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_graph
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_pivot
+msgid "Invoice Analysis"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.ui.menu,name:cargo_manual_invoicing.menu_cargo_invoice_graph
+msgid "Invoice Analysis (Chart)"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.ui.menu,name:cargo_manual_invoicing.menu_cargo_invoice_pivot
+msgid "Invoice Analysis (Table)"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.actions.act_window,name:cargo_manual_invoicing.action_cargo_invoice_report_graph
+msgid "Invoice Analysis — Chart"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.actions.act_window,name:cargo_manual_invoicing.action_cargo_invoice_report_pivot
+msgid "Invoice Analysis — Table"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid ""
+"Invoice Details\n"
+"                        <span style=\"direction:rtl;\"> :تفاصيل الفاتورة</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Invoice Details — تفاصيل الفاتورة"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__invoice_number
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Invoice Number"
+msgstr "رقم الفاتورة"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Invoices"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid ""
+"Item Details\n"
+"                        <span style=\"float:right; direction:rtl;\">معلومات الشحن</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__delivery_partner__jt
+msgid "J&T"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_daily_report_wizard__write_uid
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_daily_report_wizard__write_date
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__delivery_partner__manual
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__status__manual
+msgid "Manual (Other)"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__manual_delivery_partner
+msgid "Manual Delivery Partner"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__manual_status
+msgid "Manual Status"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__receiver_mobile
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__shipper_mobile
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Mobile"
+msgstr "الجوال"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Mobile:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+msgid "Month"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Name:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__delivery_partner__naqel
+msgid "Naqel"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__net_amount
+msgid "Net Amount"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Net Amount (SAR)"
+msgstr "المبلغ الصافي (ريال)"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "No data available for this period."
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "No invoices found for this period."
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+msgid "Not Emailed"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,help:cargo_manual_invoicing.field_cargo_manual_invoice__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,help:cargo_manual_invoicing.field_cargo_manual_invoice__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__destination
+msgid "Old Destination"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.ui.menu,name:cargo_manual_invoicing.menu_cargo_invoicing_main
+msgid "Operations"
+msgstr "العمليات"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Optional landline"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__status__order_placed
+msgid "Order Placed"
+msgstr "تم الطلب"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__origin
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Origin"
+msgstr "المنشأ"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Origin:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Overall Summary"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Parties Info"
+msgstr "معلومات الأطراف"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Pay Mode"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_daily_report_wizard__paymode_filter
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Payment Mode"
+msgstr "طريقة الدفع"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__paymode
+msgid "Paymode"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Paymode:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__pieces
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Pieces"
+msgstr "القطع"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Pieces:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Print Invoice"
+msgstr "طباعة الفاتورة"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__product_info
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Product Info"
+msgstr "معلومات المنتج"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Product:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid ""
+"Receiver Info\n"
+"                        <span style=\"float:right; direction:rtl;\">معلومات استقبال</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Receiver Info — معلومات استقبال"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__receiver_name
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Receiver Name"
+msgstr "اسم المستلم"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.view_cargo_daily_report_wizard_form
+msgid "Report Options"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_daily_report_wizard__report_type
+msgid "Report Type"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Report generated on:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.ui.menu,name:cargo_manual_invoicing.menu_cargo_reporting
+msgid "Reporting"
+msgstr "التقارير"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__status__returned
+msgid "Returned"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__delivery_partner__smsa
+msgid "SMSA"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+msgid "Search Invoices"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__access_token
+msgid "Security Token"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__receiver_id
+msgid "Select Receiver"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__shipper_id
+msgid "Select Shipper"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Send Email"
+msgstr "إرسال بريد"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Send via WhatsApp"
+msgstr "إرسال عبر واتس اب"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Shipment Info"
+msgstr "معلومات الشحنة"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__shipment_type
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Shipment Type"
+msgstr "نوع الشحنة"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__status__shipped
+msgid "Shipped"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Shipper"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid ""
+"Shipper Info\n"
+"                        <span style=\"float:right; direction:rtl;\">معلومات الشاحن</span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Shipper Info — معلومات الشاحن"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__shipper_name
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Shipper Name"
+msgstr "اسم الشاحن"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__shipping_date
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Shipping Date"
+msgstr "تاريخ الشحن"
+
+#. module: cargo_manual_invoicing
+#: model:ir.actions.server,name:cargo_manual_invoicing.ir_cron_update_shippo_tracking_ir_actions_server
+msgid "Shippo: Auto-Update Tracking Status"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Sign or Name"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__special_info
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Special Info"
+msgstr "معلومات خاصة"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Special:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Specify Partner"
+msgstr "تحديد الشريك"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Specify Status"
+msgstr "تحديد الحالة"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__status
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+msgid "Status"
+msgstr "الحالة"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,help:cargo_manual_invoicing.field_cargo_manual_invoice__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_daily_report_wizard__report_type__summary
+msgid "Summary Report"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "TOTAL"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__receiver_tel
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__shipper_tel
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Tel"
+msgstr "الهاتف"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Tel:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.view_cargo_daily_report_wizard_form
+msgid "This Month"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid ""
+"This QR code automatically encodes the following required fields in TLV "
+"Base64 format:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.view_cargo_daily_report_wizard_form
+msgid "This Week"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+msgid "This Year"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Thumb Sign"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.view_cargo_daily_report_wizard_form
+msgid "Today"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_list
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Total"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Total (SAR)"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Total Extra Charges"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Total Invoices"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Total Net Amount"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "Total VAT (15%)"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Tracking number"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Type name to search or create..."
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,help:cargo_manual_invoicing.field_cargo_manual_invoice__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields.selection,name:cargo_manual_invoicing.selection__cargo_manual_invoice__delivery_partner__ups
+msgid "UPS"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "User"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "User / Payment"
+msgstr "المستخدم / الدفع"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__agent_name
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "User Name"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "User-wise Breakdown"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "User:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__vat_amount
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "VAT 15%"
+msgstr "ضريبة القيمة المضافة 15%"
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__shipper_vat_no
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "VAT No"
+msgstr "الرقم الضريبي"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "VAT No:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "VAT: 310248611400003"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__weight
+msgid "Weight"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "Weight (kg)"
+msgstr "الوزن (كجم)"
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "Weight:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_search
+msgid "Year"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.view_cargo_daily_report_wizard_form
+msgid "Yesterday"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "ZATCA Phase 1 Compliant QR Code"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model:ir.model.fields,field_description:cargo_manual_invoicing.field_cargo_manual_invoice__zatca_qr_image
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid "ZATCA QR Code"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "e.g. 0599649593"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "e.g. 97430320008"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "e.g. India"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "e.g. Saudi Arabia Riyadh"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.cargo_manual_invoice_form
+msgid "email@example.com"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "to"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "| Generated by:"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid ""
+"تحتاج أي اوراق أو مستندات للتخليس الجمركي على المستلم توفيرها كل الرسوم و الضرائب يجب أن تدفع من قبل المرسل أو المستلم دون أدني مسؤلية على الشركة وفي حالة\n"
+"                عدم استلام الشحنة من قبل المستلم خلال ١٠ أيام داخليا و ٣٠ يوما خارجيا يجب تبليغ المكتب بذلك وفي حالة عدم للتبليغ المكتب غير مسؤل عن هذه الشحنات<br/>\n"
+"                <span style=\"direction: ltr; text-align: left; display: block; margin-top: 2px;\">\n"
+"                    Need any documents to clear the shipment from customs receiver should provide all duties and taxes should pay receiver or shipper, if you will not receive\n"
+"                    the domestic within 10 days you should inform otherwise company will not any responsibilities\n"
+"                </span>"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+msgid ""
+"رقم الضريبي : ٣١٠٢٤٨٦١١٤٠٠٠٠٣<br/>\n"
+"                    هاتف : ٠٥٧٠٧٥٦٦٨٧<br/>\n"
+"                    العزيزية - شارع أبو سعد الوزير - بجوار النقل الجماعي<br/>\n"
+"                    الرياض- المملكة العربية السعودية"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_cargo_invoice_content
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "مؤسسة بركات السرعه للتجارة"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "🌍 International"
+msgstr ""
+
+#. module: cargo_manual_invoicing
+#: model_terms:ir.ui.view,arch_db:cargo_manual_invoicing.report_daily_collection_document
+msgid "🏠 Domestic"
+msgstr ""

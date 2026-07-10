@@ -61,6 +61,7 @@ class CargoManualInvoice(models.Model):
     )
 
     # ── Shipper Info ───────────────────────────────────────────────────
+    shipper_id = fields.Many2one('res.partner', string='Select Shipper')
     origin = fields.Char(string='Origin', default='Saudi Arabia Riyadh', required=True)
     shipper_name = fields.Char(string='Shipper Name', required=True)
     shipper_mobile = fields.Char(string='Mobile', required=True)
@@ -71,6 +72,7 @@ class CargoManualInvoice(models.Model):
     shipper_address = fields.Char(string='Address', required=True)
 
     # ── Receiver Info ──────────────────────────────────────────────────
+    receiver_id = fields.Many2one('res.partner', string='Select Receiver')
     destination = fields.Char(string='Old Destination', required=False, help="Deprecated field")
     destination_country_id = fields.Many2one('res.country', string='Destination Country', required=True)
 
@@ -198,16 +200,134 @@ class CargoManualInvoice(models.Model):
                 _logger.error("Failed to generate ZATCA QR code: %s", str(e))
                 rec.zatca_qr_image = False
 
-    @api.onchange('gross_total', 'extra_charge', 'shipment_type')
-    def _onchange_gross_total(self):
-        base_total = self.gross_total - self.extra_charge
-        if self.shipment_type == 'domestic':
-            # gross_total - extra_charge = net_amount * 1.15
-            self.net_amount = round(base_total / 1.15, 2)
-            self.vat_amount = base_total - self.net_amount
+    @api.onchange('net_amount', 'extra_charge', 'shipment_type')
+    def _onchange_forward(self):
+        for rec in self:
+            if rec.shipment_type == 'domestic':
+                expected_gross = round((rec.net_amount * 1.15) + rec.extra_charge, 2)
+                # If the gross total is already correct (within 2 cents for rounding), don't trigger an infinite loop
+                if abs(rec.gross_total - expected_gross) > 0.02:
+                    rec.vat_amount = round(rec.net_amount * 0.15, 2)
+                    rec.gross_total = rec.net_amount + rec.vat_amount + rec.extra_charge
+            else:
+                rec.vat_amount = 0.0
+                rec.gross_total = rec.net_amount + rec.extra_charge
+
+    @api.onchange('gross_total')
+    def _onchange_backward(self):
+        for rec in self:
+            if rec.shipment_type == 'domestic':
+                expected_net = round((rec.gross_total - rec.extra_charge) / 1.15, 2)
+                # If the net amount is already correct (within 2 cents for rounding), don't trigger an infinite loop
+                if abs(rec.net_amount - expected_net) > 0.02:
+                    rec.net_amount = expected_net
+                    rec.vat_amount = rec.gross_total - rec.extra_charge - rec.net_amount
+            else:
+                rec.net_amount = rec.gross_total - rec.extra_charge
+                rec.vat_amount = 0.0
+
+    @api.onchange('shipper_id')
+    def _onchange_shipper_id(self):
+        if self.shipper_id:
+            self.shipper_name = self.shipper_id.name or ''
+            self.shipper_mobile = self.shipper_id.mobile or self.shipper_id.phone or ''
+            self.shipper_tel = self.shipper_id.phone or ''
+            self.shipper_vat_no = self.shipper_id.vat or ''
+            self.shipper_company = self.shipper_id.company_name or self.shipper_id.parent_id.name or ''
+            self.shipper_email = self.shipper_id.email or ''
+            self.shipper_address = self._format_address(self.shipper_id)
+
+    @api.onchange('receiver_id')
+    def _onchange_receiver_id(self):
+        if self.receiver_id:
+            self.receiver_name = self.receiver_id.name or ''
+            self.receiver_mobile = self.receiver_id.mobile or self.receiver_id.phone or ''
+            self.receiver_tel = self.receiver_id.phone or ''
+            self.receiver_company = self.receiver_id.company_name or self.receiver_id.parent_id.name or ''
+            self.receiver_email = self.receiver_id.email or ''
+            self.receiver_address = self._format_address(self.receiver_id)
+            if self.receiver_id.country_id:
+                self.destination_country_id = self.receiver_id.country_id.id
+
+    def _format_address(self, partner):
+        parts = [partner.street, partner.street2, partner.city, partner.state_id.name, partner.country_id.name]
+        return ", ".join([p for p in parts if p])
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            self._auto_create_partner(vals, 'shipper')
+            self._auto_create_partner(vals, 'receiver')
+        return super().create(vals_list)
+
+    def write(self, vals):
+        for rec in self:
+            rec._auto_create_partner(vals, 'shipper')
+            rec._auto_create_partner(vals, 'receiver')
+        return super().write(vals)
+
+    def _auto_create_partner(self, vals, ptype):
+        """ Automatically creates a res.partner if a name is provided but no ID is linked, 
+            or updates an existing partner with the latest details. """
+        name_key = f'{ptype}_name'
+        id_key = f'{ptype}_id'
+        
+        # Determine current state
+        if id_key in vals:
+            current_id = vals[id_key]
         else:
-            self.net_amount = base_total
-            self.vat_amount = 0.0
+            current_id = getattr(self, id_key).id if self and getattr(self, id_key) else False
+            
+        current_name = vals.get(name_key, getattr(self, name_key, False) if self else False)
+        current_mobile = vals.get(f'{ptype}_mobile', getattr(self, f'{ptype}_mobile', False) if self else False)
+        current_tel = vals.get(f'{ptype}_tel', getattr(self, f'{ptype}_tel', False) if self else False)
+        current_email = vals.get(f'{ptype}_email', getattr(self, f'{ptype}_email', False) if self else False)
+        current_address = vals.get(f'{ptype}_address', getattr(self, f'{ptype}_address', False) if self else False)
+        current_vat = vals.get(f'{ptype}_vat_no', getattr(self, f'{ptype}_vat_no', False) if self else False) if ptype == 'shipper' else False
+        
+        if current_id:
+            # Sync any filled-in invoice details BACK to the partner if they are empty on the partner
+            # Or if they are updated. But we only want to update if we have new data.
+            partner = self.env['res.partner'].browse(current_id)
+            update_vals = {}
+            if current_mobile and partner.mobile != current_mobile and partner.phone != current_mobile:
+                update_vals['mobile'] = current_mobile
+            if current_tel and partner.phone != current_tel:
+                update_vals['phone'] = current_tel
+            if current_email and partner.email != current_email:
+                update_vals['email'] = current_email
+            if current_vat and partner.vat != current_vat:
+                update_vals['vat'] = current_vat
+            if current_address and partner.street != current_address:
+                update_vals['street'] = current_address
+            if update_vals:
+                partner.sudo().write(update_vals)
+                
+            # Keep the hidden text name field perfectly in sync with the partner name
+            vals[name_key] = partner.name
+            
+        elif current_name:
+            # Check if partner already exists by exact name and mobile
+            domain = [('name', '=ilike', current_name)]
+            if current_mobile:
+                domain.append('|')
+                domain.append(('mobile', '=', current_mobile))
+                domain.append(('phone', '=', current_mobile))
+                
+            existing = self.env['res.partner'].search(domain, limit=1)
+            if existing:
+                vals[id_key] = existing.id
+            else:
+                # Create new partner
+                new_partner = self.env['res.partner'].create({
+                    'name': current_name,
+                    'mobile': current_mobile,
+                    'phone': current_tel,
+                    'email': current_email,
+                    'vat': current_vat,
+                    'street': current_address,
+                })
+                vals[id_key] = new_partner.id
 
     @api.constrains('shipper_mobile')
     def _check_shipper_mobile(self):

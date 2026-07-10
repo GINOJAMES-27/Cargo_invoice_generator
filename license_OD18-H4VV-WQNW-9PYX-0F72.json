@@ -1,0 +1,11 @@
+{
+    "license_key": "OD18-H4VV-WQNW-9PYX-0F72",
+    "customer": "SANAL HASSAN",
+    "company": "BARAKAT SURA TRADING EST",
+    "database_uuid": "",
+    "expiry": "2027-07-09",
+    "grace_period": 15,
+    "max_activations": 1,
+    "modules": "cargo_manual_invoicing",
+    "signature": "254d1cbd3e98257b4e2277474ec8fd7377aca95d5c0364ef9f98057a279ea281"
+}

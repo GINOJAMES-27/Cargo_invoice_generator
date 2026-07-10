@@ -90,8 +90,9 @@
                         <page string="Parties Info" name="parties_info">
                             <group>
                                 <group string="Shipper Info — معلومات الشاحن">
+                                    <field name="shipper_id" string="Shipper Name" placeholder="Type name to search or create..."/>
                                     <field name="origin" string="Origin" placeholder="e.g. Saudi Arabia Riyadh"/>
-                                    <field name="shipper_name" string="Shipper Name" placeholder="Full name of shipper"/>
+                                    <field name="shipper_name" invisible="1"/>
                                     <field name="shipper_mobile" string="Mobile" widget="phone" placeholder="e.g. 0599649593"/>
                                     <field name="shipper_tel" string="Tel" widget="phone" placeholder="Optional landline"/>
                                     <field name="shipper_vat_no" string="VAT No" placeholder="Customer VAT Number"/>
@@ -100,9 +101,10 @@
                                     <field name="shipper_address" string="Address" placeholder="Full address"/>
                                 </group>
                                 <group string="Receiver Info — معلومات استقبال">
+                                    <field name="receiver_id" string="Receiver Name" placeholder="Type name to search or create..."/>
                                     <field name="destination" invisible="1"/>
                                     <field name="destination_country_id" string="Country" placeholder="e.g. India" options="{'no_create': True, 'no_open': True}"/>
-                                    <field name="receiver_name" string="Receiver Name" placeholder="Full name of receiver"/>
+                                    <field name="receiver_name" invisible="1"/>
                                     <field name="receiver_mobile" string="Mobile" widget="phone" placeholder="e.g. 97430320008"/>
                                     <field name="receiver_tel" string="Tel" widget="phone" placeholder="Optional landline"/>
                                     <field name="receiver_company" string="Company" placeholder="Company name"/>
